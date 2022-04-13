@@ -1,0 +1,24 @@
+{
+  "name": "aeiou-contract",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "compile": "node compile.js",
+    "deploy": "node deploy.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "fs-extra": "^10.0.1",
+    "ganache-cli": "^6.12.2",
+    "mocha": "^9.2.2",
+    "solc": "^0.8.13",
+    "web3": "^1.7.3"
+  }
+}

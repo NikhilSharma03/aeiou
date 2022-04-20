@@ -1,5 +1,6 @@
 const COLOR_PALLET = {
     chineseSilver: '#ccc',
+    lightGray: '#777',
     primaryBlack: '#191a19',
     secondaryBlack: '#111',
     blackThree: 'rgb(42, 42, 42)',
@@ -17,6 +18,8 @@ const themeScheme = {
         palette: {
             body: COLOR_PALLET.primaryBlack,
             header: COLOR_PALLET.secondaryBlack,
+            scrollBar: COLOR_PALLET.secondaryBlue,
+            scrollBarHover: COLOR_PALLET.primaryBlue,
             headerTitle: COLOR_PALLET.chineseSilver,
             headerTitleSpan: COLOR_PALLET.primaryBlue,
             headerTitleSpanHover: COLOR_PALLET.secondaryBlue,
@@ -24,6 +27,7 @@ const themeScheme = {
             homeTitle: COLOR_PALLET.chineseSilver,
             homeSpan: COLOR_PALLET.primaryBlue,
             homeSpanHover: COLOR_PALLET.secondaryBlue,
+            homeCardDesc: COLOR_PALLET.lightGray,
         },
     },
 };

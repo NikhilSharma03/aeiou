@@ -4,6 +4,8 @@ interface ThemeType {
     theme: {
         palette: {
             body: string;
+            scrollBar: string;
+            scrollBarHover: string;
         };
     };
 }
@@ -25,6 +27,25 @@ body {
     transition: background-color 0.3s;
     font-family: 'Raleway', sans-serif;
     background-color: ${({ theme }) => theme.palette.body};
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: ${({ theme }) => theme.palette.body}; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: ${({ theme }) => theme.palette.scrollBar}; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: ${({ theme }) => theme.palette.scrollBarHover}; 
 }
 `;
 

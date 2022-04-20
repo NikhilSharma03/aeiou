@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Main } from './layout.style';
-import Navbar from './../navbar/navbar';
+import Navbar from '../Navbar/navbar';
+import Footer from '../Footer/footer';
 
 interface Props {
     children?: React.ReactNode;
@@ -12,6 +13,7 @@ const Layout: React.FC<Props> = ({ children, toggleTheme }) => {
         <Container>
             <Navbar toggleTheme={toggleTheme} />
             <Main>{children}</Main>
+            <Footer />
         </Container>
     );
 };

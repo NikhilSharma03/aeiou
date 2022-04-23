@@ -28,6 +28,9 @@ const themeScheme = {
             homeSpan: COLOR_PALLET.primaryBlue,
             homeSpanHover: COLOR_PALLET.secondaryBlue,
             homeCardDesc: COLOR_PALLET.lightGray,
+            form: COLOR_PALLET.secondaryBlack,
+            inputText: COLOR_PALLET.chineseSilver,
+            inputPlaceholder: COLOR_PALLET.lightGray,
         },
     },
 };

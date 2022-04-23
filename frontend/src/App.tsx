@@ -6,7 +6,7 @@ import themeScheme from './theme/schema';
 import GlobalStyle from './App.style';
 import { useTheme } from './hooks/useTheme';
 // Pages
-import { Home } from './pages/pageSrc';
+import { Home, Login, SignUp } from './pages/pageSrc';
 
 const App: React.FC = () => {
     const [currentTheme, toggleTheme] = useTheme();
@@ -21,6 +21,8 @@ const App: React.FC = () => {
             <Layout toggleTheme={toggleTheme}>
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

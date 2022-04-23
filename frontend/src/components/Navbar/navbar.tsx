@@ -40,7 +40,7 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
                         </NavItem>
                     </NavItems>
                 </Nav>
-                <UserAuthBtn to="/signin">
+                <UserAuthBtn to="/login">
                     <FaUserAlt size={20} color="#ccc" /> Login
                 </UserAuthBtn>
             </NavMain>

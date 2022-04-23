@@ -10,7 +10,7 @@ import {
     TextInput,
 } from './login.style';
 
-const Login = () => {
+const Login: React.FC = () => {
     return (
         <Container>
             <FormHeader>

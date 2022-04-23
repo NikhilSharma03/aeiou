@@ -35,7 +35,7 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
                         </NavItem>
                     </NavItems>
                     <NavItems>
-                        <NavItem to="/new-campaign">
+                        <NavItem to="/campaigns/new">
                             <IoMdCreate size={25} color="#ccc" /> New Campaign
                         </NavItem>
                     </NavItems>

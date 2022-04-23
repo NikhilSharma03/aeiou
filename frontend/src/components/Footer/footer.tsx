@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
                         </FooterItem>
                     </FooterItems>
                     <FooterItems>
-                        <FooterItem to="/new-campaign">
+                        <FooterItem to="/campaigns/new">
                             <IoMdCreate size={25} color="#ccc" /> New Campaign
                         </FooterItem>
                     </FooterItems>

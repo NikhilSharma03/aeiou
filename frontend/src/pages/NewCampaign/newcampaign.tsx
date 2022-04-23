@@ -4,29 +4,23 @@ import {
     Form,
     FormHeader,
     FormHeaderTitle,
-    LoginText,
     SubmitButton,
     TextInput,
-} from './signup.style';
-import { Link } from 'react-router-dom';
+} from './newcampaign.style';
 
-const Signup: React.FC = () => {
+const NewCampaign: React.FC = () => {
     return (
         <Container>
             <FormHeader>
-                <FormHeaderTitle>Signup</FormHeaderTitle>
+                <FormHeaderTitle>New Campaign</FormHeaderTitle>
             </FormHeader>
             <Form>
-                <TextInput type="text" placeholder="Name" />
                 <TextInput type="email" placeholder="Email" />
                 <TextInput type="password" placeholder="Password" />
-                <LoginText>
-                    Already a user? <Link to="/login">Login</Link>
-                </LoginText>
                 <SubmitButton type="submit" name="Submit" />
             </Form>
         </Container>
     );
 };
 
-export default Signup;
+export default NewCampaign;

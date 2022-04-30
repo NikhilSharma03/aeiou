@@ -4,7 +4,8 @@ import Layout from './components/Layout/layout';
 import { ThemeProvider } from 'styled-components';
 import themeScheme from './theme/schema';
 import GlobalStyle from './App.style';
-import { useTheme } from './hooks/useTheme';
+import { useTheme } from './hooks/hooks';
+
 // Pages
 import {
     Campaign,

@@ -9,6 +9,8 @@ import {
 } from './newcampaign.style';
 
 const NewCampaign: React.FC = () => {
+    React.useEffect(() => {}, []);
+
     return (
         <Container>
             <FormHeader>

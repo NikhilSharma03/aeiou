@@ -122,32 +122,6 @@ const Campaigns: React.FC = () => {
                                         </label>
                                         <span>{contract.balance}</span>
                                     </ContractCardDetailsText>
-                                    <ContractCardDetailsText>
-                                        <label>
-                                            Minimum Amount <br />
-                                        </label>
-                                        <span>
-                                            {web3.utils.fromWei(
-                                                contract.minimumAmount,
-                                                'ether'
-                                            )}{' '}
-                                            ether
-                                        </span>
-                                    </ContractCardDetailsText>
-                                    <ContractCardDetailsText>
-                                        <label>
-                                            Total Contributors <br />
-                                        </label>
-                                        <span>
-                                            {contract.totalContributors}
-                                        </span>
-                                    </ContractCardDetailsText>
-                                    <ContractCardDetailsText>
-                                        <label>
-                                            Total Requests <br />
-                                        </label>
-                                        <span>{contract.totalRequest}</span>
-                                    </ContractCardDetailsText>
                                     <ContractDetailsButton
                                         to={`/campaigns/${contract.contractAddress}`}
                                     >

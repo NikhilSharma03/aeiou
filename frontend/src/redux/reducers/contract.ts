@@ -1,11 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { onGetAllContracts } from './../actions/contract';
+import {
+    onGetAllContracts,
+    onGetContractByAddress,
+} from './../actions/contract';
 
 type ContractDetails = {
-    minimumAmount: string;
+    minimumAmount?: string;
     balance: string;
-    totalRequest: string;
-    totalContributors: string;
+    totalRequest?: string;
+    totalContributors?: string;
     managerAddress: string;
     title: string;
     description: string;
@@ -15,6 +18,7 @@ type ContractDetails = {
 
 interface ContractInitialStateType {
     data: ContractDetails[];
+    singleContract: ContractDetails;
     error: string;
     loading: boolean;
 }
@@ -23,6 +27,17 @@ const initialState: ContractInitialStateType = {
     data: [],
     error: '',
     loading: false,
+    singleContract: {
+        minimumAmount: '',
+        balance: '',
+        totalRequest: '',
+        totalContributors: '',
+        managerAddress: '',
+        title: '',
+        description: '',
+        imgSource: '',
+        contractAddress: '',
+    },
 };
 
 export const contractSlice = createSlice({
@@ -45,6 +60,23 @@ export const contractSlice = createSlice({
             state.loading = false;
             state.error = `${payload}`;
         });
+        builder.addCase(onGetContractByAddress.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(
+            onGetContractByAddress.fulfilled,
+            (state, { payload }) => {
+                state.singleContract = payload;
+                state.loading = false;
+            }
+        );
+        builder.addCase(
+            onGetContractByAddress.rejected,
+            (state, { payload }) => {
+                state.loading = false;
+                state.error = `${payload}`;
+            }
+        );
     },
 });
 

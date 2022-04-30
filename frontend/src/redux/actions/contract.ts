@@ -6,10 +6,10 @@ import web3 from './../../web3/web3';
 type AbiItem = any;
 
 type ContractDetails = {
-    minimumAmount: string;
+    minimumAmount?: string;
     balance: string;
-    totalRequest: string;
-    totalContributors: string;
+    totalRequest?: string;
+    totalContributors?: string;
     managerAddress: string;
     title: string;
     description: string;
@@ -40,10 +40,7 @@ export const onGetAllContracts = createAsyncThunk<
             const campaign = await new web3.eth.Contract(abi, address);
             const val = await campaign.methods.getSummary().call();
             const result: ContractDetails = {
-                minimumAmount: val[0],
                 balance: val[1],
-                totalRequest: val[2],
-                totalContributors: val[3],
                 managerAddress: val[4],
                 title: val[5],
                 description: val[6],
@@ -56,6 +53,36 @@ export const onGetAllContracts = createAsyncThunk<
     } catch (err) {
         return rejectWithValue(
             'Failed to fetch all contracts. Please reload again.'
+        );
+    }
+});
+
+export const onGetContractByAddress = createAsyncThunk<
+    ContractDetails,
+    string,
+    { rejectValue: string }
+>('contract/getContractByAddress', async (address, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        const abi: AbiItem = AEIOUCampaign.abi;
+        // Single contract
+        const campaign = await new web3.eth.Contract(abi, address);
+        const val = await campaign.methods.getSummary().call();
+        const result: ContractDetails = {
+            minimumAmount: val[0],
+            balance: val[1],
+            totalRequest: val[2],
+            totalContributors: val[3],
+            managerAddress: val[4],
+            title: val[5],
+            description: val[6],
+            imgSource: val[7],
+            contractAddress: address,
+        };
+        return result;
+    } catch (err) {
+        return rejectWithValue(
+            'Failed to fetch contract by address. Please reload again.'
         );
     }
 });

@@ -33,7 +33,7 @@ const App: React.FC = () => {
                     <Route path="signup" element={<SignUp />} />
                     <Route path="campaigns" element={<Campaigns />} />
                     <Route path="campaigns/new" element={<NewCampaign />} />
-                    <Route path="campaigns/:id" element={<Campaigns />} />
+                    <Route path="campaigns/:address" element={<Campaign />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

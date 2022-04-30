@@ -26,7 +26,7 @@ const Metamask: React.FC<Props> = ({ showModal, closeModal }) => {
                 </MetamaskModalContent>
                 <MetamaskButtonContainer>
                     <MetamaskCloseButton onClick={closeModal}>
-                        Close
+                        Done
                     </MetamaskCloseButton>
                     <MetamaskVisitButton
                         href="https://metamask.io/download/"

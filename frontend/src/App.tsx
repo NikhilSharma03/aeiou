@@ -11,8 +11,6 @@ import {
     Campaign,
     Campaigns,
     Home,
-    Login,
-    SignUp,
     NewCampaign,
 } from './pages/pageSrc';
 
@@ -29,8 +27,6 @@ const App: React.FC = () => {
             <Layout toggleTheme={toggleTheme}>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="signup" element={<SignUp />} />
                     <Route path="campaigns" element={<Campaigns />} />
                     <Route path="campaigns/new" element={<NewCampaign />} />
                     <Route path="campaigns/:address" element={<Campaign />} />

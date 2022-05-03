@@ -4,11 +4,6 @@ import { onConnectWallet } from './../actions/user';
 const initialState = {
     userWalletAccount: '',
     isWalletConnected: false,
-    userName: '',
-    userEmail: '',
-    userID: '',
-    userImage: '',
-    isAuthenticated: false,
     loading: false,
     error: '',
 };

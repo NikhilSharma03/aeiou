@@ -17,6 +17,15 @@ type ContractDetails = {
     contractAddress: string;
 };
 
+type CreateRequest = {
+    campaignAddress: string;
+    userAddress: string;
+    title: string;
+    desc: string;
+    receiver: string;
+    amount: string;
+};
+
 export const onGetAllContracts = createAsyncThunk<
     ContractDetails[],
     void,
@@ -86,6 +95,32 @@ export const onGetContractByAddress = createAsyncThunk<
         );
     }
 });
+
+export const onCreateRequest = createAsyncThunk<
+    void,
+    CreateRequest,
+    { rejectValue: string }
+>(
+    'contract/createRequest',
+    async (
+        { campaignAddress, userAddress, title, desc, receiver, amount },
+        { rejectWithValue }
+    ) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, campaignAddress);
+            await campaign.methods
+                .createRequest(title, desc, receiver, amount)
+                .send({ from: userAddress });
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to create new request. Please reload again.'
+            );
+        }
+    }
+);
 
 // export const onCreateNewContract = createAsyncThunk<
 //     string[],

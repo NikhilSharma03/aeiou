@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     onGetAllContracts,
     onGetContractByAddress,
+    onCreateRequest,
 } from './../actions/contract';
 
 type ContractDetails = {
@@ -77,6 +78,16 @@ export const contractSlice = createSlice({
                 state.error = `${payload}`;
             }
         );
+        builder.addCase(onCreateRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onCreateRequest.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
     },
 });
 

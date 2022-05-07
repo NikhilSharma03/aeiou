@@ -45,3 +45,5 @@ export const RequestTableRow = styled.tr``;
 export const RequestTableData = styled.td``;
 
 export const ApproveButton = styled.button``;
+
+export const FinalizeButton = styled.button``;

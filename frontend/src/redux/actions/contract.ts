@@ -5,6 +5,16 @@ import web3 from './../../web3/web3';
 
 type AbiItem = any;
 
+type Request = {
+    requestID: number;
+    requestTitle: any;
+    requestDescription: any;
+    transferAmount: any;
+    requestAmountReceiver: any;
+    approvalsCount: any;
+    isRequestCompleted: any;
+};
+
 type ContractDetails = {
     minimumAmount?: string;
     balance: string;
@@ -15,6 +25,7 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+    requests?: Request[];
 };
 
 type CreateRequest = {
@@ -77,6 +88,22 @@ export const onGetContractByAddress = createAsyncThunk<
         // Single contract
         const campaign = await new web3.eth.Contract(abi, address);
         const val = await campaign.methods.getSummary().call();
+
+        const requests: Request[] = [];
+        for (let i = 0; i < val[2]; i++) {
+            const requestData = await campaign.methods.requests(0).call();
+            const request: Request = {
+                requestID: 0,
+                requestTitle: requestData.title,
+                requestDescription: requestData.description,
+                transferAmount: requestData.amount,
+                requestAmountReceiver: requestData.receiver,
+                approvalsCount: requestData.approvalsCount,
+                isRequestCompleted: requestData.completed,
+            };
+            requests.push(request);
+        }
+
         const result: ContractDetails = {
             minimumAmount: val[0],
             balance: val[1],
@@ -87,6 +114,7 @@ export const onGetContractByAddress = createAsyncThunk<
             description: val[6],
             imgSource: val[7],
             contractAddress: address,
+            requests,
         };
         return result;
     } catch (err) {

@@ -15,6 +15,7 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+    requests?: Request[];
 };
 
 interface ContractInitialStateType {
@@ -23,6 +24,15 @@ interface ContractInitialStateType {
     error: string;
     loading: boolean;
 }
+
+type Request = {
+    requestTitle: any;
+    requestDescription: any;
+    transferAmount: any;
+    requestAmountReceiver: any;
+    approvalsCount: any;
+    isRequestCompleted: any;
+};
 
 const initialState: ContractInitialStateType = {
     data: [],
@@ -38,6 +48,7 @@ const initialState: ContractInitialStateType = {
         description: '',
         imgSource: '',
         contractAddress: '',
+        requests: [],
     },
 };
 

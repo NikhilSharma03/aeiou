@@ -91,9 +91,9 @@ export const onGetContractByAddress = createAsyncThunk<
 
         const requests: Request[] = [];
         for (let i = 0; i < val[2]; i++) {
-            const requestData = await campaign.methods.requests(0).call();
+            const requestData = await campaign.methods.requests(i).call();
             const request: Request = {
-                requestID: 0,
+                requestID: i,
                 requestTitle: requestData.title,
                 requestDescription: requestData.description,
                 transferAmount: requestData.amount,

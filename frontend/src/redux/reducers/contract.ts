@@ -32,6 +32,7 @@ type Request = {
     requestAmountReceiver: any;
     approvalsCount: any;
     isRequestCompleted: any;
+    requestID: number;
 };
 
 const initialState: ContractInitialStateType = {

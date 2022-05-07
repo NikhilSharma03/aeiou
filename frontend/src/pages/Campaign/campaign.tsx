@@ -35,6 +35,7 @@ const Campaign: React.FC = () => {
                 closeModal={clearError}
             />
             <LoadingModal showModal={loading} />
+            
         </React.Fragment>
     );
 };

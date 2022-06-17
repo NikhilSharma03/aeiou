@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import {
     Container,
+    ETHLabel,
     Form,
     FormHeader,
     FormHeaderTitle,
+    NCDiv,
     SubmitButton,
     TextInput,
 } from './newcampaign.style';
@@ -92,11 +94,14 @@ const NewCampaign: React.FC = () => {
                     placeholder="ImageURL"
                     onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <TextInput
-                    type="text"
-                    placeholder="Minimum Contribution (ETH)"
-                    onChange={(e) => setMinimumContribution(e.target.value)}
-                />
+                <NCDiv>
+                    <TextInput
+                        type="text"
+                        placeholder="Minimum Contribution"
+                        onChange={(e) => setMinimumContribution(e.target.value)}
+                    />
+                    <ETHLabel>ETH</ETHLabel>
+                </NCDiv>
                 <SubmitButton type="submit" name="Submit" />
             </Form>
         </Container>

@@ -27,6 +27,26 @@ export const Form = styled.form`
     min-width: 60rem;
 `;
 
+export const NCDiv = styled.div`
+    display: flex;
+
+    & input {
+        border-radius: 5px 0 0 5px;
+    }
+`;
+
+export const ETHLabel = styled.p`
+    margin-bottom: 4rem;
+    background-color: ${({ theme }) => theme.palette.scrollBar};
+    border: 1px solid ${({ theme }) => theme.palette.scrollBar};
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 0 1rem;
+`;
+
 export const TextInput = styled.input`
     color: ${({ theme }) => theme.palette.inputText};
     display: block;

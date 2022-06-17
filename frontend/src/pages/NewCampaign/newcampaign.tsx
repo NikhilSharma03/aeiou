@@ -21,7 +21,6 @@ const NewCampaign: React.FC = () => {
     const [description, setDescription] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string>('');
     const [minimumContribution, setMinimumContribution] = useState<string>('');
-    const [createLoading, setCreateLoading] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
@@ -50,7 +49,6 @@ const NewCampaign: React.FC = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-
         const minContri = web3.utils.toWei(minimumContribution);
         const data = {
             name,
@@ -65,6 +63,10 @@ const NewCampaign: React.FC = () => {
             data.minimumContribution,
             userWalletAccount
         );
+        setName('');
+        setDescription('');
+        setImageUrl('');
+        setMinimumContribution('');
     };
 
     return (

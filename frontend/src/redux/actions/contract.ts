@@ -80,7 +80,7 @@ export const onGetAllContracts = createAsyncThunk<
         return data;
     } catch (err) {
         return rejectWithValue(
-            'Failed to fetch all contracts. Please reload again.'
+            'Failed to fetch all contracts. Please reload again. ' + err
         );
     }
 });
@@ -127,7 +127,7 @@ export const onGetContractByAddress = createAsyncThunk<
         return result;
     } catch (err) {
         return rejectWithValue(
-            'Failed to fetch contract by address. Please reload again.'
+            'Failed to fetch contract by address. Please reload again. ' + err
         );
     }
 });
@@ -152,7 +152,7 @@ export const onCreateRequest = createAsyncThunk<
                 .send({ from: userAddress });
         } catch (err) {
             return rejectWithValue(
-                'Failed to create new request. Please reload again.'
+                'Failed to create new request. Please reload again. ' + err
             );
         }
     }
@@ -174,22 +174,18 @@ export const onCreateNewContract = createAsyncThunk<
             minimumContribution: account.minimumContribution,
             userWalletAccount: account.userWalletAccount,
         };
-        try {
-            await aeiouFactory.methods
-                .createCampaign(
-                    nC.name,
-                    nC.description,
-                    nC.imageURL,
-                    nC.minimumContribution
-                )
-                .send({
-                    from: nC.userWalletAccount,
-                });
-        } catch (err) {
-            console.log('Error:', err);
-        }
+        await aeiouFactory.methods
+            .createCampaign(
+                nC.name,
+                nC.description,
+                nC.imageURL,
+                nC.minimumContribution
+            )
+            .send({
+                from: nC.userWalletAccount,
+            });
         return nC;
     } catch (err) {
-        return rejectWithValue('Failed to fetch all contracts');
+        return rejectWithValue('Failed to create new contract! ' + err);
     }
 });

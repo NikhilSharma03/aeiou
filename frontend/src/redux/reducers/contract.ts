@@ -3,6 +3,7 @@ import {
     onGetAllContracts,
     onGetContractByAddress,
     onCreateRequest,
+    onCreateNewContract,
 } from './../actions/contract';
 
 type ContractDetails = {
@@ -97,6 +98,16 @@ export const contractSlice = createSlice({
             state.loading = false;
         });
         builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onCreateNewContract.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onCreateNewContract.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(onCreateNewContract.rejected, (state, { payload }) => {
             state.loading = false;
             state.error = String(payload);
         });

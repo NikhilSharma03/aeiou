@@ -7,10 +7,12 @@ import {
     SubmitButton,
     TextInput,
 } from './newcampaign.style';
+import web3 from 'web3';
 import { onCreateNewContract } from './../../redux/actions/contract';
+import { onClearContractError } from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import LoadingModal from '../../components/Modals/Loading/loading';
-import web3 from 'web3';
+import ErrorModal from '../../components/Modals/Error/error';
 
 const NewCampaign: React.FC = () => {
     const [name, setName] = useState<string>('');
@@ -22,6 +24,8 @@ const NewCampaign: React.FC = () => {
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
     );
+    const loading = useAppSelector((state) => state.contracts.loading);
+    const error = useAppSelector((state) => state.contracts.error);
 
     const createNewContract = (
         name,
@@ -40,11 +44,12 @@ const NewCampaign: React.FC = () => {
             })
         );
 
+    const clearError = () => dispatch(onClearContractError());
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        setCreateLoading(true);
-        const minContri = web3.utils.toWei(minimumContribution);
 
+        const minContri = web3.utils.toWei(minimumContribution);
         const data = {
             name,
             description,
@@ -58,12 +63,16 @@ const NewCampaign: React.FC = () => {
             data.minimumContribution,
             userWalletAccount
         );
-        setCreateLoading(false);
     };
 
     return (
         <Container>
-            <LoadingModal showModal={createLoading} />
+            <ErrorModal
+                content={error}
+                showModal={!!error}
+                closeModal={clearError}
+            />
+            <LoadingModal showModal={loading} />
             <FormHeader>
                 <FormHeaderTitle>New Campaign</FormHeaderTitle>
             </FormHeader>

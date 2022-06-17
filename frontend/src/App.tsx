@@ -12,6 +12,7 @@ import {
     Campaigns,
     Home,
     NewCampaign,
+    NewRequest,
 } from './pages/pageSrc';
 
 const App: React.FC = () => {
@@ -30,6 +31,10 @@ const App: React.FC = () => {
                     <Route path="campaigns" element={<Campaigns />} />
                     <Route path="campaigns/new" element={<NewCampaign />} />
                     <Route path="campaigns/:address" element={<Campaign />} />
+                    <Route
+                        path="requests/:address/new"
+                        element={<NewRequest />}
+                    />
                 </Routes>
             </Layout>
         </ThemeProvider>

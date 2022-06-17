@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     onGetAllContracts,
     onGetContractByAddress,
+    onCreateRequest,
 } from './../actions/contract';
 
 type ContractDetails = {
@@ -14,6 +15,7 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+    requests?: Request[];
 };
 
 interface ContractInitialStateType {
@@ -22,6 +24,16 @@ interface ContractInitialStateType {
     error: string;
     loading: boolean;
 }
+
+type Request = {
+    requestTitle: any;
+    requestDescription: any;
+    transferAmount: any;
+    requestAmountReceiver: any;
+    approvalsCount: any;
+    isRequestCompleted: any;
+    requestID: number;
+};
 
 const initialState: ContractInitialStateType = {
     data: [],
@@ -37,6 +49,7 @@ const initialState: ContractInitialStateType = {
         description: '',
         imgSource: '',
         contractAddress: '',
+        requests: [],
     },
 };
 
@@ -77,6 +90,16 @@ export const contractSlice = createSlice({
                 state.error = `${payload}`;
             }
         );
+        builder.addCase(onCreateRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onCreateRequest.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
     },
 });
 

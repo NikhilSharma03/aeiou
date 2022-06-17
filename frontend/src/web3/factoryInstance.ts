@@ -15,6 +15,6 @@ async function initiateFactoryInstance() {
 
 initiateFactoryInstance();
 
-export default function getFactoryInstance() {
+export function getFactoryInstance() {
     return factory;
 }

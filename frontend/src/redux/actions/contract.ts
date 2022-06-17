@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AEIOUCampaign from './../../web3/campaign/AEIOUCampaign.json';
-import getFactoryInstance from './../../web3/factoryInstance';
+import { getFactoryInstance } from './../../web3/factoryInstance';
 import web3 from './../../web3/web3';
 
 type AbiItem = any;
@@ -15,6 +15,14 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+};
+
+type CreateContract = {
+    name: string;
+    description: string;
+    imageURL: string;
+    minimumContribution: string;
+    userWalletAccount: string;
 };
 
 export const onGetAllContracts = createAsyncThunk<
@@ -87,33 +95,39 @@ export const onGetContractByAddress = createAsyncThunk<
     }
 });
 
-// export const onCreateNewContract = createAsyncThunk<
-//     string[],
-//     string,
-//     { rejectValue: string }
-// >('contract/getAllContracts', async (account, { rejectWithValue }) => {
-//     try {
-//         // getFactory instance
-//         let aeiouFactory: any = getFactoryInstance();
-//         // Fetch all campaigns
-//         await aeiouFactory.methods
-//             .createCampaign(
-//                 'Web3 Course',
-//                 'The project aims to create a brand new web3 course. The contributors will get free access to the course.',
-//                 'https://cdn.slidesharecdn.com/ss_thumbnails/waq19-web3-en-youtube-190427195446-thumbnail-4.jpg?cb=1556396880',
-//                 '1000000000000000000'
-//             )
-//             .send({
-//                 from: account,
-//             });
+export const onCreateNewContract = createAsyncThunk<
+    CreateContract,
+    CreateContract,
+    { rejectValue: string }
+>('contract/createNewContract', async (account, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        let aeiouFactory: any = getFactoryInstance();
+        // Fetch all campaigns
+        const nC = {
+            name: account.name,
+            description: account.description,
+            imageURL: account.imageURL,
+            minimumContribution: account.minimumContribution,
+            userWalletAccount: account.userWalletAccount,
+        };
 
-//         let campaigns: string[] = await aeiouFactory.methods
-//             .getAllCampaigns()
-//             .call();
-//         console.log(campaigns);
-//         return [''];
-//     } catch (err) {
-//         console.log(err);
-//         return rejectWithValue('Failed to fetch all contracts');
-//     }
-// });
+        try {
+            await aeiouFactory.methods
+                .createCampaign(
+                    nC.name,
+                    nC.description,
+                    nC.imageURL,
+                    nC.minimumContribution
+                )
+                .send({
+                    from: nC.userWalletAccount,
+                });
+        } catch (err) {
+            console.log('Error:', err);
+        }
+        return nC;
+    } catch (err) {
+        return rejectWithValue('Failed to fetch all contracts');
+    }
+});

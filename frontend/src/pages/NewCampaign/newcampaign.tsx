@@ -11,7 +11,10 @@ import {
 } from './newcampaign.style';
 import web3 from 'web3';
 import { onCreateNewContract } from './../../redux/actions/contract';
-import { onClearContractError } from './../../redux/reducers/contract';
+import {
+    onClearContractError,
+    onSetContractError,
+} from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import ErrorModal from '../../components/Modals/Error/error';
@@ -46,10 +49,36 @@ const NewCampaign: React.FC = () => {
         );
 
     const clearError = () => dispatch(onClearContractError());
+    const setError = (msg: string) => dispatch(onSetContractError(msg));
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        const minContri = web3.utils.toWei(minimumContribution);
+        // Validation
+        if (
+            name.trim().length === 0 ||
+            description.trim().length === 0 ||
+            imageUrl.trim().length === 0 ||
+            minimumContribution.trim().length === 0
+        ) {
+            // Set Error
+            setError('Invalid Input!!');
+            return;
+        }
+
+        let minContri;
+
+        try {
+            minContri = web3.utils.toWei(minimumContribution);
+        } catch (err) {
+            setError('Please enter amount in number!');
+            return;
+        }
+
+        if (!userWalletAccount) {
+            setError('Please connect metamask wallet to create campaign!!');
+            return;
+        }
+
         const data = {
             name,
             description,

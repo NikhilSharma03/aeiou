@@ -61,6 +61,9 @@ export const contractSlice = createSlice({
         onClearContractError: (state) => {
             state.error = '';
         },
+        onSetContractError: (state, { payload }) => {
+            state.error = payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(onGetAllContracts.pending, (state) => {
@@ -114,6 +117,7 @@ export const contractSlice = createSlice({
     },
 });
 
-export const { onClearContractError } = contractSlice.actions;
+export const { onClearContractError, onSetContractError } =
+    contractSlice.actions;
 
 export default contractSlice.reducer;

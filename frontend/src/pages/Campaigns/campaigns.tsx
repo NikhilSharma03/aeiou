@@ -24,6 +24,7 @@ import Metamask from '../../components/Modals/Metamask/metamask';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import Web3 from 'web3';
+import { FaUserAlt } from 'react-icons/fa';
 
 const Campaigns: React.FC = () => {
     const [showMetaMaskModal, setShowMetaMaskModal] = useState(false);
@@ -37,6 +38,9 @@ const Campaigns: React.FC = () => {
     );
     const isWalletConnected: boolean = useAppSelector(
         (state) => state.users.isWalletConnected
+    );
+    const userWalletAccount: string = useAppSelector(
+        (state) => state.users.userWalletAccount
     );
     const userError: string = useAppSelector((state) => state.users.error);
 
@@ -78,9 +82,14 @@ const Campaigns: React.FC = () => {
                         disabled={isWalletConnected}
                         onClick={connectWallet}
                     >
-                        {isWalletConnected
-                            ? 'Wallet Connected'
-                            : 'Connect Wallet'}
+                        {isWalletConnected ? (
+                            <div>
+                                <FaUserAlt size={15} color="#ccc" />{' '}
+                                <span>{userWalletAccount}</span>
+                            </div>
+                        ) : (
+                            'Connect Wallet'
+                        )}
                     </ConnectWalletButton>
                 </ConnectWalletContainer>
                 <ContractContainer>

@@ -33,6 +33,19 @@ export const ConnectWalletButton = styled.button`
     transition: all 0.3s;
     cursor: pointer;
 
+    & div {
+        svg {
+            margin-right: 1rem;
+        }
+        span {
+            max-width: 20rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        display: flex;
+    }
+
     &:hover {
         background-color: ${({ theme }) => theme.palette.scrollBar};
     }

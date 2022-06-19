@@ -82,7 +82,7 @@ export const UserAuthBtn = styled.div`
             margin-right: 1rem;
         }
         span {
-            max-width: 20rem;
+            max-width: 15rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

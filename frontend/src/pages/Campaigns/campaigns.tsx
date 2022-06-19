@@ -13,9 +13,7 @@ import {
     HeadText,
     CreateCampaignText,
 } from './campaigns.style';
-import web3 from 'web3';
 import { Link } from 'react-router-dom';
-import { onConnectWallet } from './../../redux/actions/user';
 import { onGetAllContracts } from './../../redux/actions/contract';
 import { onClearUserError } from './../../redux/reducers/user';
 import { onClearContractError } from './../../redux/reducers/contract';
@@ -24,7 +22,6 @@ import Metamask from '../../components/Modals/Metamask/metamask';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import Web3 from 'web3';
-import { FaUserAlt } from 'react-icons/fa';
 
 const Campaigns: React.FC = () => {
     const [showMetaMaskModal, setShowMetaMaskModal] = useState(false);
@@ -36,15 +33,8 @@ const Campaigns: React.FC = () => {
     const contractError: string = useAppSelector(
         (state) => state.contracts.error
     );
-    const isWalletConnected: boolean = useAppSelector(
-        (state) => state.users.isWalletConnected
-    );
-    const userWalletAccount: string = useAppSelector(
-        (state) => state.users.userWalletAccount
-    );
     const userError: string = useAppSelector((state) => state.users.error);
 
-    const connectWallet = () => dispatch(onConnectWallet());
     const clearUserError = () => dispatch(onClearUserError());
     const clearContractError = () => dispatch(onClearContractError());
 
@@ -78,19 +68,6 @@ const Campaigns: React.FC = () => {
                     <HeadText>
                         All <span>Contracts</span>
                     </HeadText>
-                    <ConnectWalletButton
-                        disabled={isWalletConnected}
-                        onClick={connectWallet}
-                    >
-                        {isWalletConnected ? (
-                            <div>
-                                <FaUserAlt size={15} color="#ccc" />{' '}
-                                <span>{userWalletAccount}</span>
-                            </div>
-                        ) : (
-                            'Connect Wallet'
-                        )}
-                    </ConnectWalletButton>
                 </ConnectWalletContainer>
                 <ContractContainer>
                     {contracts.length === 0 ? (

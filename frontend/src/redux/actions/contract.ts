@@ -17,6 +17,7 @@ type Request = {
 
 type ContractDetails = {
     minimumAmount?: string;
+    targetAmount?: string;
     balance: string;
     totalRequest?: string;
     totalContributors?: string;
@@ -42,6 +43,7 @@ type CreateContract = {
     description: string;
     imageURL: string;
     minimumContribution: string;
+    targetAmount: string;
     userWalletAccount: string;
 };
 
@@ -69,10 +71,10 @@ export const onGetAllContracts = createAsyncThunk<
             const val = await campaign.methods.getSummary().call();
             const result: ContractDetails = {
                 balance: val[1],
-                managerAddress: val[4],
-                title: val[5],
-                description: val[6],
-                imgSource: val[7],
+                managerAddress: val[5],
+                title: val[6],
+                description: val[7],
+                imgSource: val[8],
                 contractAddress: address,
             };
             data.push(result);
@@ -98,7 +100,7 @@ export const onGetContractByAddress = createAsyncThunk<
         const val = await campaign.methods.getSummary().call();
 
         const requests: Request[] = [];
-        for (let i = 0; i < val[2]; i++) {
+        for (let i = 0; i < val[3]; i++) {
             const requestData = await campaign.methods.requests(i).call();
             const request: Request = {
                 requestID: i,
@@ -114,13 +116,14 @@ export const onGetContractByAddress = createAsyncThunk<
 
         const result: ContractDetails = {
             minimumAmount: val[0],
-            balance: val[1],
-            totalRequest: val[2],
-            totalContributors: val[3],
-            managerAddress: val[4],
-            title: val[5],
-            description: val[6],
-            imgSource: val[7],
+            targetAmount: val[1],
+            balance: val[2],
+            totalRequest: val[3],
+            totalContributors: val[4],
+            managerAddress: val[5],
+            title: val[6],
+            description: val[7],
+            imgSource: val[8],
             contractAddress: address,
             requests,
         };
@@ -167,11 +170,12 @@ export const onCreateNewContract = createAsyncThunk<
         // getFactory instance
         let aeiouFactory: any = getFactoryInstance();
         // Fetch all campaigns
-        const nC = {
+        const nC: CreateContract = {
             name: account.name,
             description: account.description,
             imageURL: account.imageURL,
             minimumContribution: account.minimumContribution,
+            targetAmount: account.targetAmount,
             userWalletAccount: account.userWalletAccount,
         };
         await aeiouFactory.methods
@@ -179,7 +183,8 @@ export const onCreateNewContract = createAsyncThunk<
                 nC.name,
                 nC.description,
                 nC.imageURL,
-                nC.minimumContribution
+                nC.minimumContribution,
+                nC.targetAmount
             )
             .send({
                 from: nC.userWalletAccount,

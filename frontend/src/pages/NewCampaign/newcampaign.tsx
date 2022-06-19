@@ -24,6 +24,7 @@ const NewCampaign: React.FC = () => {
     const [description, setDescription] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string>('');
     const [minimumContribution, setMinimumContribution] = useState<string>('');
+    const [targetAmount, setTargetAmount] = useState<string>('');
     const dispatch = useAppDispatch();
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
@@ -45,6 +46,7 @@ const NewCampaign: React.FC = () => {
                 imageURL,
                 minimumContribution,
                 userWalletAccount,
+                targetAmount,
             })
         );
 
@@ -130,6 +132,14 @@ const NewCampaign: React.FC = () => {
                         type="text"
                         placeholder="Minimum Contribution"
                         onChange={(e) => setMinimumContribution(e.target.value)}
+                    />
+                    <ETHLabel>ETH</ETHLabel>
+                </NCDiv>
+                <NCDiv>
+                    <TextInput
+                        type="text"
+                        placeholder="Target Amount"
+                        onChange={(e) => setTargetAmount(e.target.value)}
                     />
                     <ETHLabel>ETH</ETHLabel>
                 </NCDiv>

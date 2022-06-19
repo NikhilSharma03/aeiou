@@ -12,6 +12,7 @@ export const FormHeader = styled.div`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
     min-width: 60rem;
     padding: 2rem;
+    margin-top: 7rem;
 `;
 
 export const FormHeaderTitle = styled.h1`

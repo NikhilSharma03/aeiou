@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import Metamask from '../../components/Modals/Metamask/metamask';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
+import Web3 from 'web3';
 
 const Campaigns: React.FC = () => {
     const [showMetaMaskModal, setShowMetaMaskModal] = useState(false);
@@ -120,7 +121,13 @@ const Campaigns: React.FC = () => {
                                         <label>
                                             Balance <br />
                                         </label>
-                                        <span>{contract.balance}</span>
+                                        <span>
+                                            {Web3.utils.fromWei(
+                                                contract.balance,
+                                                'ether'
+                                            )}{' '}
+                                            ETH
+                                        </span>
                                     </ContractCardDetailsText>
                                     <ContractDetailsButton
                                         to={`/campaigns/${contract.contractAddress}`}

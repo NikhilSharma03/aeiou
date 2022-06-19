@@ -1,9 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import AEIOUCampaign from './../../web3/campaign/AEIOUCampaign.json';
-import getFactoryInstance from './../../web3/factoryInstance';
+import { getFactoryInstance } from './../../web3/factoryInstance';
 import web3 from './../../web3/web3';
 
 type AbiItem = any;
+
+type Request = {
+    requestID: number;
+    requestTitle: any;
+    requestDescription: any;
+    transferAmount: any;
+    requestAmountReceiver: any;
+    approvalsCount: any;
+    isRequestCompleted: any;
+};
 
 type ContractDetails = {
     minimumAmount?: string;
@@ -15,6 +25,24 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+    requests?: Request[];
+};
+
+type CreateRequest = {
+    campaignAddress: string;
+    userAddress: string;
+    title: string;
+    desc: string;
+    receiver: string;
+    amount: string;
+};
+
+type CreateContract = {
+    name: string;
+    description: string;
+    imageURL: string;
+    minimumContribution: string;
+    userWalletAccount: string;
 };
 
 export const onGetAllContracts = createAsyncThunk<
@@ -52,7 +80,7 @@ export const onGetAllContracts = createAsyncThunk<
         return data;
     } catch (err) {
         return rejectWithValue(
-            'Failed to fetch all contracts. Please reload again.'
+            'Failed to fetch all contracts. Please reload again. ' + err
         );
     }
 });
@@ -68,6 +96,22 @@ export const onGetContractByAddress = createAsyncThunk<
         // Single contract
         const campaign = await new web3.eth.Contract(abi, address);
         const val = await campaign.methods.getSummary().call();
+
+        const requests: Request[] = [];
+        for (let i = 0; i < val[2]; i++) {
+            const requestData = await campaign.methods.requests(i).call();
+            const request: Request = {
+                requestID: i,
+                requestTitle: requestData.title,
+                requestDescription: requestData.description,
+                transferAmount: requestData.amount,
+                requestAmountReceiver: requestData.receiver,
+                approvalsCount: requestData.approvalsCount,
+                isRequestCompleted: requestData.completed,
+            };
+            requests.push(request);
+        }
+
         const result: ContractDetails = {
             minimumAmount: val[0],
             balance: val[1],
@@ -78,42 +122,70 @@ export const onGetContractByAddress = createAsyncThunk<
             description: val[6],
             imgSource: val[7],
             contractAddress: address,
+            requests,
         };
         return result;
     } catch (err) {
         return rejectWithValue(
-            'Failed to fetch contract by address. Please reload again.'
+            'Failed to fetch contract by address. Please reload again. ' + err
         );
     }
 });
 
-// export const onCreateNewContract = createAsyncThunk<
-//     string[],
-//     string,
-//     { rejectValue: string }
-// >('contract/getAllContracts', async (account, { rejectWithValue }) => {
-//     try {
-//         // getFactory instance
-//         let aeiouFactory: any = getFactoryInstance();
-//         // Fetch all campaigns
-//         await aeiouFactory.methods
-//             .createCampaign(
-//                 'Web3 Course',
-//                 'The project aims to create a brand new web3 course. The contributors will get free access to the course.',
-//                 'https://cdn.slidesharecdn.com/ss_thumbnails/waq19-web3-en-youtube-190427195446-thumbnail-4.jpg?cb=1556396880',
-//                 '1000000000000000000'
-//             )
-//             .send({
-//                 from: account,
-//             });
+export const onCreateRequest = createAsyncThunk<
+    void,
+    CreateRequest,
+    { rejectValue: string }
+>(
+    'contract/createRequest',
+    async (
+        { campaignAddress, userAddress, title, desc, receiver, amount },
+        { rejectWithValue }
+    ) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, campaignAddress);
+            await campaign.methods
+                .createRequest(title, desc, receiver, amount)
+                .send({ from: userAddress });
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to create new request. Please reload again. ' + err
+            );
+        }
+    }
+);
 
-//         let campaigns: string[] = await aeiouFactory.methods
-//             .getAllCampaigns()
-//             .call();
-//         console.log(campaigns);
-//         return [''];
-//     } catch (err) {
-//         console.log(err);
-//         return rejectWithValue('Failed to fetch all contracts');
-//     }
-// });
+export const onCreateNewContract = createAsyncThunk<
+    CreateContract,
+    CreateContract,
+    { rejectValue: string }
+>('contract/createNewContract', async (account, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        let aeiouFactory: any = getFactoryInstance();
+        // Fetch all campaigns
+        const nC = {
+            name: account.name,
+            description: account.description,
+            imageURL: account.imageURL,
+            minimumContribution: account.minimumContribution,
+            userWalletAccount: account.userWalletAccount,
+        };
+        await aeiouFactory.methods
+            .createCampaign(
+                nC.name,
+                nC.description,
+                nC.imageURL,
+                nC.minimumContribution
+            )
+            .send({
+                from: nC.userWalletAccount,
+            });
+        return nC;
+    } catch (err) {
+        return rejectWithValue('Failed to create new contract! ' + err);
+    }
+});

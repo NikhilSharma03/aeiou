@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     onGetAllContracts,
     onGetContractByAddress,
+    onCreateRequest,
+    onCreateNewContract,
 } from './../actions/contract';
 
 type ContractDetails = {
@@ -14,6 +16,7 @@ type ContractDetails = {
     description: string;
     imgSource: string;
     contractAddress: string;
+    requests?: Request[];
 };
 
 interface ContractInitialStateType {
@@ -22,6 +25,16 @@ interface ContractInitialStateType {
     error: string;
     loading: boolean;
 }
+
+type Request = {
+    requestTitle: any;
+    requestDescription: any;
+    transferAmount: any;
+    requestAmountReceiver: any;
+    approvalsCount: any;
+    isRequestCompleted: any;
+    requestID: number;
+};
 
 const initialState: ContractInitialStateType = {
     data: [],
@@ -37,6 +50,7 @@ const initialState: ContractInitialStateType = {
         description: '',
         imgSource: '',
         contractAddress: '',
+        requests: [],
     },
 };
 
@@ -46,6 +60,9 @@ export const contractSlice = createSlice({
     reducers: {
         onClearContractError: (state) => {
             state.error = '';
+        },
+        onSetContractError: (state, { payload }) => {
+            state.error = payload;
         },
     },
     extraReducers: (builder) => {
@@ -77,9 +94,30 @@ export const contractSlice = createSlice({
                 state.error = `${payload}`;
             }
         );
+        builder.addCase(onCreateRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onCreateRequest.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onCreateNewContract.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onCreateNewContract.fulfilled, (state) => {
+            state.loading = false;
+        });
+        builder.addCase(onCreateNewContract.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
     },
 });
 
-export const { onClearContractError } = contractSlice.actions;
+export const { onClearContractError, onSetContractError } =
+    contractSlice.actions;
 
 export default contractSlice.reducer;

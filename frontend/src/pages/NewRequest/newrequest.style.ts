@@ -6,6 +6,7 @@ export const Container = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 7vh;
 `;
 
 export const FormHeader = styled.div`
@@ -27,26 +28,6 @@ export const Form = styled.form`
     min-width: 60rem;
 `;
 
-export const NCDiv = styled.div`
-    display: flex;
-
-    & input {
-        border-radius: 5px 0 0 5px;
-    }
-`;
-
-export const ETHLabel = styled.p`
-    margin-bottom: 4rem;
-    background-color: ${({ theme }) => theme.palette.scrollBar};
-    border: 1px solid ${({ theme }) => theme.palette.scrollBar};
-    border-radius: 0 5px 5px 0;
-    display: flex;
-    align-items: center;
-    font-size: 1.3rem;
-    font-weight: bold;
-    padding: 0 1rem;
-`;
-
 export const TextInput = styled.input`
     color: ${({ theme }) => theme.palette.inputText};
     display: block;
@@ -65,6 +46,27 @@ export const TextInput = styled.input`
     &:focus {
         border: 1px solid ${({ theme }) => theme.palette.scrollBar};
     }
+`;
+
+export const EtherTIContainer = styled.div`
+    display: flex;
+    align-items: flex-start;
+
+    & input {
+        border-radius: 5px 0 0 5px;
+        border-right: none;
+    }
+`;
+
+export const EtherTILabel = styled.label`
+    background-color: ${({ theme }) => theme.palette.scrollBarHover};
+    border-radius: 0 5px 5px 0;
+    height: 3.75rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 1.25rem;
+    font-weight: bold;
 `;
 
 export const SubmitButton = styled.input`

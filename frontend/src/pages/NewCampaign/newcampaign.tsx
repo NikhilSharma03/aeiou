@@ -14,6 +14,7 @@ import { onCreateNewContract } from './../../redux/actions/contract';
 import {
     onClearContractError,
     onSetContractError,
+    onResetComplete,
 } from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import LoadingModal from '../../components/Modals/Loading/loading';
@@ -26,13 +27,13 @@ const NewCampaign: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string>('');
     const [minimumContribution, setMinimumContribution] = useState<string>('');
     const [targetAmount, setTargetAmount] = useState<string>('');
-    const [successMsg, setSuccessMsg] = useState<string>('');
     const dispatch = useAppDispatch();
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
     );
     const loading = useAppSelector((state) => state.contracts.loading);
     const error = useAppSelector((state) => state.contracts.error);
+    const completed = useAppSelector((state) => state.contracts.completed);
 
     const createNewContract = (
         name,
@@ -54,6 +55,7 @@ const NewCampaign: React.FC = () => {
         );
 
     const clearError = () => dispatch(onClearContractError());
+    const resetCompleted = () => dispatch(onResetComplete());
     const setError = (msg: string) => dispatch(onSetContractError(msg));
 
     const onSubmitHandler = async (e) => {
@@ -108,15 +110,6 @@ const NewCampaign: React.FC = () => {
             data.targetAmount,
             userWalletAccount
         );
-
-        if (!error) {
-            setName('');
-            setDescription('');
-            setImageUrl('');
-            setMinimumContribution('');
-            setTargetAmount('');
-            setSuccessMsg('Campaign Created Successfully!');
-        }
     };
 
     return (
@@ -127,9 +120,9 @@ const NewCampaign: React.FC = () => {
                 closeModal={clearError}
             />
             <SuccessModal
-                content={successMsg}
-                showModal={!!successMsg}
-                closeModal={() => setSuccessMsg('')}
+                content={'Campaign Created Successfully!'}
+                showModal={completed}
+                closeModal={resetCompleted}
             />
             <LoadingModal showModal={loading} />
             <FormHeader>

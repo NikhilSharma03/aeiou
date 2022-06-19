@@ -60,6 +60,10 @@ export const RequestTable = styled.table`
     color: ${({ theme }) => theme.palette.headerTitle};
 `;
 
+export const RequestTableHead = styled.thead``;
+
+export const RequestTableBody = styled.tbody``;
+
 export const RequestTableHeader = styled.th`
     border: 1px solid ${({ theme }) => theme.palette.headerBottomBorder};
     padding: 1rem;

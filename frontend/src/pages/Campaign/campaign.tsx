@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ApproveButton,
     BannerContributeButton,
@@ -13,8 +13,10 @@ import {
     ContractRequestCreateButton,
     FinalizeButton,
     RequestTable,
+    RequestTableBody,
     RequestTableContainer,
     RequestTableData,
+    RequestTableHead,
     RequestTableHeader,
     RequestTableRow,
 } from './campaign.style';
@@ -29,6 +31,7 @@ import Web3 from 'web3';
 const Campaign: React.FC = () => {
     const params = useParams();
     const address = params.address;
+    const [isTargetCompleted, setIsTargetCompleted] = useState<boolean>(false);
     const dispatch = useAppDispatch();
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
@@ -70,7 +73,22 @@ const Campaign: React.FC = () => {
                 <ContractDetailsText>
                     <label>Balance</label>
                     <span>
-                        {Web3.utils.fromWei(contractDetails.balance, 'ether')}{' '}
+                        {contractDetails.balance &&
+                            Web3.utils.fromWei(
+                                contractDetails.balance,
+                                'ether'
+                            )}{' '}
+                        ETH
+                    </span>
+                </ContractDetailsText>
+                <ContractDetailsText>
+                    <label>Target</label>
+                    <span>
+                        {contractDetails.targetAmount &&
+                            Web3.utils.fromWei(
+                                String(contractDetails.targetAmount),
+                                'ether'
+                            )}{' '}
                         ETH
                     </span>
                 </ContractDetailsText>
@@ -106,55 +124,73 @@ const Campaign: React.FC = () => {
                 </ContractRequestContainer>
                 <RequestTableContainer>
                     <RequestTable>
-                        <RequestTableRow>
-                            <RequestTableHeader>ID</RequestTableHeader>
-                            <RequestTableHeader>Title</RequestTableHeader>
-                            <RequestTableHeader>Description</RequestTableHeader>
-                            <RequestTableHeader>
-                                Transfer Amount
-                            </RequestTableHeader>
-                            <RequestTableHeader>Receiver</RequestTableHeader>
-                            <RequestTableHeader>Approvals</RequestTableHeader>
-                            <RequestTableHeader>Completed</RequestTableHeader>
-                            <RequestTableHeader>Approve</RequestTableHeader>
-                            <RequestTableHeader>Finalize</RequestTableHeader>
-                        </RequestTableRow>
-                        {contractDetails.requests?.map((request) => (
+                        <RequestTableHead>
                             <RequestTableRow>
-                                <RequestTableData>
-                                    {request.requestID}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {request.requestTitle}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {request.requestDescription}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {Web3.utils.fromWei(
-                                        request.transferAmount,
-                                        'ether'
-                                    )}{' '}
-                                    ETH
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {request.requestAmountReceiver}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {request.approvalsCount}/
-                                    {contractDetails.totalContributors}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    {request.isRequestCompleted ? 'Yes' : 'No'}
-                                </RequestTableData>
-                                <RequestTableData>
-                                    <ApproveButton>Approve</ApproveButton>
-                                </RequestTableData>
-                                <RequestTableData>
-                                    <FinalizeButton>Finalize</FinalizeButton>
-                                </RequestTableData>
+                                <RequestTableHeader>ID</RequestTableHeader>
+                                <RequestTableHeader>Title</RequestTableHeader>
+                                <RequestTableHeader>
+                                    Description
+                                </RequestTableHeader>
+                                <RequestTableHeader>
+                                    Transfer Amount
+                                </RequestTableHeader>
+                                <RequestTableHeader>
+                                    Receiver
+                                </RequestTableHeader>
+                                <RequestTableHeader>
+                                    Approvals
+                                </RequestTableHeader>
+                                <RequestTableHeader>
+                                    Completed
+                                </RequestTableHeader>
+                                <RequestTableHeader>Approve</RequestTableHeader>
+                                <RequestTableHeader>
+                                    Finalize
+                                </RequestTableHeader>
                             </RequestTableRow>
-                        ))}
+                        </RequestTableHead>
+                        <RequestTableBody>
+                            {contractDetails.requests?.map((request) => (
+                                <RequestTableRow>
+                                    <RequestTableData>
+                                        {request.requestID}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {request.requestTitle}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {request.requestDescription}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {Web3.utils.fromWei(
+                                            request.transferAmount,
+                                            'ether'
+                                        )}{' '}
+                                        ETH
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {request.requestAmountReceiver}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {request.approvalsCount}/
+                                        {contractDetails.totalContributors}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        {request.isRequestCompleted
+                                            ? 'Yes'
+                                            : 'No'}
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        <ApproveButton>Approve</ApproveButton>
+                                    </RequestTableData>
+                                    <RequestTableData>
+                                        <FinalizeButton>
+                                            Finalize
+                                        </FinalizeButton>
+                                    </RequestTableData>
+                                </RequestTableRow>
+                            ))}
+                        </RequestTableBody>
                     </RequestTable>
                 </RequestTableContainer>
             </Container>

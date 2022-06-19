@@ -70,7 +70,7 @@ export const onGetAllContracts = createAsyncThunk<
             const campaign = await new web3.eth.Contract(abi, address);
             const val = await campaign.methods.getSummary().call();
             const result: ContractDetails = {
-                balance: val[1],
+                balance: val[2],
                 managerAddress: val[5],
                 title: val[6],
                 description: val[7],

@@ -8,6 +8,7 @@ import {
 
 type ContractDetails = {
     minimumAmount?: string;
+    targetAmount?: string;
     balance: string;
     totalRequest?: string;
     totalContributors?: string;
@@ -23,6 +24,7 @@ interface ContractInitialStateType {
     data: ContractDetails[];
     singleContract: ContractDetails;
     error: string;
+    completed: boolean;
     loading: boolean;
 }
 
@@ -40,6 +42,7 @@ const initialState: ContractInitialStateType = {
     data: [],
     error: '',
     loading: false,
+    completed: false,
     singleContract: {
         minimumAmount: '',
         balance: '',
@@ -63,6 +66,9 @@ export const contractSlice = createSlice({
         },
         onSetContractError: (state, { payload }) => {
             state.error = payload;
+        },
+        onResetComplete: (state) => {
+            state.completed = false;
         },
     },
     extraReducers: (builder) => {
@@ -99,6 +105,7 @@ export const contractSlice = createSlice({
         });
         builder.addCase(onCreateRequest.fulfilled, (state) => {
             state.loading = false;
+            state.completed = true;
         });
         builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
             state.loading = false;
@@ -109,6 +116,7 @@ export const contractSlice = createSlice({
         });
         builder.addCase(onCreateNewContract.fulfilled, (state) => {
             state.loading = false;
+            state.completed = true;
         });
         builder.addCase(onCreateNewContract.rejected, (state, { payload }) => {
             state.loading = false;
@@ -117,7 +125,7 @@ export const contractSlice = createSlice({
     },
 });
 
-export const { onClearContractError, onSetContractError } =
+export const { onClearContractError, onSetContractError, onResetComplete } =
     contractSlice.actions;
 
 export default contractSlice.reducer;

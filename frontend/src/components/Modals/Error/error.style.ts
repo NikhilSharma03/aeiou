@@ -52,6 +52,8 @@ export const ErrorModalContent = styled.p`
     padding: 5rem 2rem;
     font-size: 1.6rem;
     color: ${({ theme }) => theme.palette.headerTitle};
+    overflow: hidden;
+    overflow-wrap: anywhere;
 `;
 
 export const ErrorButtonContainer = styled.div`

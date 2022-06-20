@@ -104,6 +104,7 @@ const Campaign: React.FC = () => {
         );
         setSuccessMsg('Contributed Successfully!');
         setContributeAmount('');
+        await dispatch(onGetContractByAddress(String(address)));
     };
 
     return (

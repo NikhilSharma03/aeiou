@@ -174,7 +174,7 @@ export const onApproveRequest = createAsyncThunk<
     CreateRequest,
     { rejectValue: string }
 >(
-    'contract/contribute',
+    'contract/approveRequest',
     async (
         { campaignAddress, userAddress, requestID },
         { rejectWithValue }
@@ -200,7 +200,7 @@ export const onFinalizeRequest = createAsyncThunk<
     CreateRequest,
     { rejectValue: string }
 >(
-    'contract/contribute',
+    'contract/finalizeRequest',
     async (
         { campaignAddress, userAddress, requestID },
         { rejectWithValue }

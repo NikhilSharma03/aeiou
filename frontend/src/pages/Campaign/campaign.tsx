@@ -21,27 +21,39 @@ import {
     RequestTableRow,
 } from './campaign.style';
 import { onGetContractByAddress } from './../../redux/actions/contract';
-import { onClearContractError } from './../../redux/reducers/contract';
+import {
+    onClearContractError,
+    onSetContractError,
+    onResetComplete,
+} from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import { useParams } from 'react-router-dom';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
+import SuccessModal from '../../components/Modals/Success/success';
 import Web3 from 'web3';
 
 const Campaign: React.FC = () => {
     const params = useParams();
     const address = params.address;
-    const [isTargetCompleted, setIsTargetCompleted] = useState<boolean>(false);
     const dispatch = useAppDispatch();
+    const [successMsg, setSuccessMsg] = useState<string>('');
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
+    );
+    const userWalletAccount = useAppSelector(
+        (state) => state.users.userWalletAccount
     );
     const contractDetails = useAppSelector(
         (state) => state.contracts.singleContract
     );
     const loading = useAppSelector((state) => state.contracts.loading);
     const error = useAppSelector((state) => state.contracts.error);
+    const completed = useAppSelector((state) => state.contracts.completed);
+
     const clearError = () => dispatch(onClearContractError());
+    const setError = (msg: string) => dispatch(onSetContractError(msg));
+    const resetComplete = () => dispatch(onResetComplete());
 
     console.log(contractDetails, loading, error);
 
@@ -55,6 +67,11 @@ const Campaign: React.FC = () => {
                 content={error}
                 showModal={!!error}
                 closeModal={clearError}
+            />
+            <SuccessModal
+                content={successMsg}
+                showModal={completed}
+                closeModal={resetComplete}
             />
             <LoadingModal showModal={loading} />
             <Container>

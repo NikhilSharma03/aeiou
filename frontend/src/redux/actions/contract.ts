@@ -37,7 +37,7 @@ type CreateRequest = {
     desc: string;
     receiver: string;
     amount: string;
-    requestIndex?: string;
+    requestID?: number;
 };
 
 type CreateContract = {
@@ -176,7 +176,7 @@ export const onApproveRequest = createAsyncThunk<
 >(
     'contract/contribute',
     async (
-        { campaignAddress, userAddress, requestIndex },
+        { campaignAddress, userAddress, requestID },
         { rejectWithValue }
     ) => {
         try {
@@ -185,7 +185,7 @@ export const onApproveRequest = createAsyncThunk<
             // Single contract
             const campaign = await new web3.eth.Contract(abi, campaignAddress);
             await campaign.methods
-                .approveRequest(requestIndex)
+                .approveRequest(requestID)
                 .send({ from: userAddress });
         } catch (err) {
             return rejectWithValue(
@@ -202,7 +202,7 @@ export const onFinalizeRequest = createAsyncThunk<
 >(
     'contract/contribute',
     async (
-        { campaignAddress, userAddress, requestIndex },
+        { campaignAddress, userAddress, requestID },
         { rejectWithValue }
     ) => {
         try {
@@ -211,7 +211,7 @@ export const onFinalizeRequest = createAsyncThunk<
             // Single contract
             const campaign = await new web3.eth.Contract(abi, campaignAddress);
             await campaign.methods
-                .finalizeRequest(requestIndex)
+                .finalizeRequest(requestID)
                 .send({ from: userAddress });
         } catch (err) {
             return rejectWithValue(

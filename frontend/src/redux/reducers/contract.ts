@@ -4,6 +4,9 @@ import {
     onGetContractByAddress,
     onCreateRequest,
     onCreateNewContract,
+    onContribute,
+    onApproveRequest,
+    onFinalizeRequest,
 } from './../actions/contract';
 
 type ContractDetails = {
@@ -108,6 +111,39 @@ export const contractSlice = createSlice({
             state.completed = true;
         });
         builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onContribute.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onContribute.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onContribute.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onApproveRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onApproveRequest.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onApproveRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onFinalizeRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onFinalizeRequest.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onFinalizeRequest.rejected, (state, { payload }) => {
             state.loading = false;
             state.error = String(payload);
         });

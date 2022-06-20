@@ -151,7 +151,7 @@ const Campaign: React.FC = () => {
                         </RequestTableHead>
                         <RequestTableBody>
                             {contractDetails.requests?.map((request) => (
-                                <RequestTableRow>
+                                <RequestTableRow key={request.requestID}>
                                     <RequestTableData>
                                         {request.requestID}
                                     </RequestTableData>

@@ -27,6 +27,7 @@ type ContractDetails = {
     imgSource: string;
     contractAddress: string;
     requests?: Request[];
+    contributors?: string[];
 };
 
 type CreateRequest = {
@@ -114,6 +115,14 @@ export const onGetContractByAddress = createAsyncThunk<
             requests.push(request);
         }
 
+        const contributors: string[] = [];
+        for (let i = 0; i < val[4]; i++) {
+            const contributorAdd: string = await campaign.methods
+                .contributorsList(i)
+                .call();
+            contributors.push(contributorAdd);
+        }
+
         const result: ContractDetails = {
             minimumAmount: val[0],
             targetAmount: val[1],
@@ -126,6 +135,7 @@ export const onGetContractByAddress = createAsyncThunk<
             imgSource: val[8],
             contractAddress: address,
             requests,
+            contributors,
         };
         return result;
     } catch (err) {
@@ -134,6 +144,29 @@ export const onGetContractByAddress = createAsyncThunk<
         );
     }
 });
+
+export const onContribute = createAsyncThunk<
+    void,
+    CreateRequest,
+    { rejectValue: string }
+>(
+    'contract/contribute',
+    async ({ campaignAddress, userAddress, amount }, { rejectWithValue }) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, campaignAddress);
+            await campaign.methods
+                .contribute()
+                .send({ from: userAddress, value: amount });
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to contribute. Please try again. ' + err
+            );
+        }
+    }
+);
 
 export const onCreateRequest = createAsyncThunk<
     void,

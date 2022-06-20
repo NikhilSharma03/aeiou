@@ -21,6 +21,7 @@ type ContractDetails = {
     imgSource: string;
     contractAddress: string;
     requests?: Request[];
+    contributors?: string[];
 };
 
 interface ContractInitialStateType {

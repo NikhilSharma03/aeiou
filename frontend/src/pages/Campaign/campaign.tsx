@@ -75,6 +75,13 @@ const Campaign: React.FC = () => {
 
     const contributeHandler = async () => {
         setShowContributeModal(false);
+
+        if (!userWalletAccount) {
+            setError('Please connect to metamask wallet!');
+            setContributeAmount('');
+            return;
+        }
+
         let contriAmt: string;
         try {
             contriAmt = Web3.utils.toWei(String(contributeAmount), 'ether');
@@ -86,12 +93,6 @@ const Campaign: React.FC = () => {
         const minAmt: number = +String(contractDetails.minimumAmount);
         if (+contriAmt < minAmt) {
             setError('Please enter amount equal or more than minimum value!');
-            setContributeAmount('');
-            return;
-        }
-
-        if (!userWalletAccount) {
-            setError('Please connect to metamask wallet!');
             setContributeAmount('');
             return;
         }
@@ -134,8 +135,15 @@ const Campaign: React.FC = () => {
                     <BannerTitle>{contractDetails.title}</BannerTitle>
                     <BannerContributeButton
                         onClick={() => setShowContributeModal(true)}
+                        disabled={contractDetails.contributors?.includes(
+                            userWalletAccount
+                        )}
                     >
-                        Contribute
+                        {contractDetails.contributors?.includes(
+                            userWalletAccount
+                        )
+                            ? 'Contributed'
+                            : 'Contribute'}
                     </BannerContributeButton>
                 </BannerMain>
                 <BannerDesc>{contractDetails.description}</BannerDesc>
@@ -189,11 +197,14 @@ const Campaign: React.FC = () => {
                             Requests (<b> {contractDetails.totalRequest} </b>)
                         </label>
                     </ContractDetailsText>
-                    <ContractRequestCreateButton
-                        to={`/requests/${address}/new`}
-                    >
-                        Create Request
-                    </ContractRequestCreateButton>
+                    {contractDetails.managerAddress.toLowerCase() ===
+                        userWalletAccount && (
+                        <ContractRequestCreateButton
+                            to={`/requests/${address}/new`}
+                        >
+                            Create Request
+                        </ContractRequestCreateButton>
+                    )}
                 </ContractRequestContainer>
                 <RequestTableContainer>
                     <RequestTable>

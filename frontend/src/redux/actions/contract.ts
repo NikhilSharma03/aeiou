@@ -121,7 +121,7 @@ export const onGetContractByAddress = createAsyncThunk<
             const contributorAdd: string = await campaign.methods
                 .contributorsList(i)
                 .call();
-            contributors.push(contributorAdd);
+            contributors.push(contributorAdd.toLowerCase());
         }
 
         const result: ContractDetails = {

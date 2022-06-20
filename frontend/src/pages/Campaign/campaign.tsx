@@ -20,7 +20,10 @@ import {
     RequestTableHeader,
     RequestTableRow,
 } from './campaign.style';
-import { onGetContractByAddress } from './../../redux/actions/contract';
+import {
+    onContribute,
+    onGetContractByAddress,
+} from './../../redux/actions/contract';
 import {
     onClearContractError,
     onSetContractError,
@@ -31,6 +34,7 @@ import { useParams } from 'react-router-dom';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import SuccessModal from '../../components/Modals/Success/success';
+import ContributeModal from '../../components/Modals/Contribute/contribute';
 import Web3 from 'web3';
 
 const Campaign: React.FC = () => {
@@ -38,6 +42,9 @@ const Campaign: React.FC = () => {
     const address = params.address;
     const dispatch = useAppDispatch();
     const [successMsg, setSuccessMsg] = useState<string>('');
+    const [contributeAmount, setContributeAmount] = useState<string>('');
+    const [showContributeModal, setShowContributeModal] =
+        useState<boolean>(false);
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
     );
@@ -54,12 +61,49 @@ const Campaign: React.FC = () => {
     const clearError = () => dispatch(onClearContractError());
     const setError = (msg: string) => dispatch(onSetContractError(msg));
     const resetComplete = () => dispatch(onResetComplete());
+    const contributeToContract = (
+        campaignAddress: string,
+        userAddress: string,
+        amount: string
+    ) => dispatch(onContribute({ campaignAddress, userAddress, amount }));
 
     console.log(contractDetails, loading, error);
 
     useEffect(() => {
         dispatch(onGetContractByAddress(String(address)));
     }, []);
+
+    const contributeHandler = async () => {
+        setShowContributeModal(false);
+        let contriAmt: string;
+        try {
+            contriAmt = Web3.utils.toWei(String(contributeAmount), 'ether');
+        } catch (err) {
+            setError('Please enter number in contribute amount input!');
+            setContributeAmount('');
+            return;
+        }
+        const minAmt: number = +String(contractDetails.minimumAmount);
+        if (+contriAmt < minAmt) {
+            setError('Please enter amount equal or more than minimum value!');
+            setContributeAmount('');
+            return;
+        }
+
+        if (!userWalletAccount) {
+            setError('Please connect to metamask wallet!');
+            setContributeAmount('');
+            return;
+        }
+
+        await contributeToContract(
+            String(address),
+            userWalletAccount,
+            contriAmt
+        );
+        setSuccessMsg('Contributed Successfully!');
+        setContributeAmount('');
+    };
 
     return (
         <React.Fragment>
@@ -73,6 +117,14 @@ const Campaign: React.FC = () => {
                 showModal={completed}
                 closeModal={resetComplete}
             />
+            <ContributeModal
+                contributeAmount={contributeAmount}
+                setContributeAmount={setContributeAmount}
+                showModal={showContributeModal}
+                onContribute={contributeHandler}
+                minimumAmount={String(contractDetails.minimumAmount)}
+                closeModal={() => setShowContributeModal(false)}
+            />
             <LoadingModal showModal={loading} />
             <Container>
                 <BannerImgContainer>
@@ -80,7 +132,11 @@ const Campaign: React.FC = () => {
                 </BannerImgContainer>
                 <BannerMain>
                     <BannerTitle>{contractDetails.title}</BannerTitle>
-                    <BannerContributeButton>Contribute</BannerContributeButton>
+                    <BannerContributeButton
+                        onClick={() => setShowContributeModal(true)}
+                    >
+                        Contribute
+                    </BannerContributeButton>
                 </BannerMain>
                 <BannerDesc>{contractDetails.description}</BannerDesc>
                 <ContractDetailsText>

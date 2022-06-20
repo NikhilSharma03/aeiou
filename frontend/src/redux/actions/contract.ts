@@ -33,10 +33,10 @@ type ContractDetails = {
 type CreateRequest = {
     campaignAddress: string;
     userAddress: string;
-    title: string;
-    desc: string;
-    receiver: string;
-    amount: string;
+    title?: string;
+    desc?: string;
+    receiver?: string;
+    amount?: string;
     requestID?: number;
 };
 

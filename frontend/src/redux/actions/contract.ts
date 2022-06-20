@@ -37,6 +37,7 @@ type CreateRequest = {
     desc: string;
     receiver: string;
     amount: string;
+    requestIndex?: string;
 };
 
 type CreateContract = {
@@ -160,6 +161,58 @@ export const onContribute = createAsyncThunk<
             await campaign.methods
                 .contribute()
                 .send({ from: userAddress, value: amount });
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to contribute. Please try again. ' + err
+            );
+        }
+    }
+);
+
+export const onApproveRequest = createAsyncThunk<
+    void,
+    CreateRequest,
+    { rejectValue: string }
+>(
+    'contract/contribute',
+    async (
+        { campaignAddress, userAddress, requestIndex },
+        { rejectWithValue }
+    ) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, campaignAddress);
+            await campaign.methods
+                .approveRequest(requestIndex)
+                .send({ from: userAddress });
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to contribute. Please try again. ' + err
+            );
+        }
+    }
+);
+
+export const onFinalizeRequest = createAsyncThunk<
+    void,
+    CreateRequest,
+    { rejectValue: string }
+>(
+    'contract/contribute',
+    async (
+        { campaignAddress, userAddress, requestIndex },
+        { rejectWithValue }
+    ) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, campaignAddress);
+            await campaign.methods
+                .finalizeRequest(requestIndex)
+                .send({ from: userAddress });
         } catch (err) {
             return rejectWithValue(
                 'Failed to contribute. Please try again. ' + err

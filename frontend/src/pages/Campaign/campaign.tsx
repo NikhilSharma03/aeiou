@@ -21,7 +21,9 @@ import {
     RequestTableRow,
 } from './campaign.style';
 import {
+    onApproveRequest,
     onContribute,
+    onFinalizeRequest,
     onGetContractByAddress,
 } from './../../redux/actions/contract';
 import {
@@ -67,6 +69,21 @@ const Campaign: React.FC = () => {
         amount: string
     ) => dispatch(onContribute({ campaignAddress, userAddress, amount }));
 
+    const approve = (
+        campaignAddress: string,
+        userAddress: string,
+        requestID: number
+    ) =>
+        dispatch(onApproveRequest({ campaignAddress, userAddress, requestID }));
+    const finalize = (
+        campaignAddress: string,
+        userAddress: string,
+        requestID: number
+    ) =>
+        dispatch(
+            onFinalizeRequest({ campaignAddress, userAddress, requestID })
+        );
+
     console.log(contractDetails, loading, error);
 
     useEffect(() => {
@@ -104,6 +121,41 @@ const Campaign: React.FC = () => {
         );
         setSuccessMsg('Contributed Successfully!');
         setContributeAmount('');
+        await dispatch(onGetContractByAddress(String(address)));
+    };
+
+    const approveHandler = async (requestID: number) => {
+        if (!userWalletAccount) {
+            setError('Please connect to metamask wallet!');
+            setContributeAmount('');
+            return;
+        }
+        await approve(String(address), userWalletAccount, requestID);
+        setSuccessMsg('Approved Successfully!');
+        await dispatch(onGetContractByAddress(String(address)));
+    };
+
+    const finalizeHandler = async (
+        requestID: number,
+        approvalsCount: number
+    ) => {
+        if (!userWalletAccount) {
+            setError('Please connect to metamask wallet!');
+            return;
+        }
+        if (
+            userWalletAccount !== contractDetails.managerAddress.toLowerCase()
+        ) {
+            setError('Unauthorized Request!');
+            return;
+        }
+        const tC = +String(contractDetails.totalContributors);
+        if (approvalsCount <= Math.floor(tC / 2)) {
+            setError('Not enough approvals on the request!');
+            return;
+        }
+        await finalize(String(address), userWalletAccount, requestID);
+        setSuccessMsg('Finalized Successfully!');
         await dispatch(onGetContractByAddress(String(address)));
     };
 
@@ -266,10 +318,31 @@ const Campaign: React.FC = () => {
                                             : 'No'}
                                     </RequestTableData>
                                     <RequestTableData>
-                                        <ApproveButton>Approve</ApproveButton>
+                                        <ApproveButton
+                                            onClick={() =>
+                                                approveHandler(
+                                                    request.requestID
+                                                )
+                                            }
+                                            disabled={
+                                                request.isRequestCompleted
+                                            }
+                                        >
+                                            Approve
+                                        </ApproveButton>
                                     </RequestTableData>
                                     <RequestTableData>
-                                        <FinalizeButton>
+                                        <FinalizeButton
+                                            onClick={() =>
+                                                finalizeHandler(
+                                                    request.requestID,
+                                                    request.approvalsCount
+                                                )
+                                            }
+                                            disabled={
+                                                request.isRequestCompleted
+                                            }
+                                        >
                                             Finalize
                                         </FinalizeButton>
                                     </RequestTableData>

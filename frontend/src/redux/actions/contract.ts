@@ -189,7 +189,7 @@ export const onApproveRequest = createAsyncThunk<
                 .send({ from: userAddress });
         } catch (err) {
             return rejectWithValue(
-                'Failed to contribute. Please try again. ' + err
+                "Failed to contribute. Please make sure you haven't approved already."
             );
         }
     }

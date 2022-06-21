@@ -137,7 +137,8 @@ const Campaign: React.FC = () => {
 
     const finalizeHandler = async (
         requestID: number,
-        approvalsCount: number
+        approvalsCount: number,
+        amount: number
     ) => {
         if (!userWalletAccount) {
             setError('Please connect to metamask wallet!');
@@ -152,6 +153,10 @@ const Campaign: React.FC = () => {
         const tC = +String(contractDetails.totalContributors);
         if (approvalsCount <= Math.floor(tC / 2)) {
             setError('Not enough approvals on the request!');
+            return;
+        }
+        if (amount > +contractDetails.balance) {
+            setError('Not enough balance to finalize the request!');
             return;
         }
         await finalize(String(address), userWalletAccount, requestID);
@@ -336,7 +341,8 @@ const Campaign: React.FC = () => {
                                             onClick={() =>
                                                 finalizeHandler(
                                                     request.requestID,
-                                                    request.approvalsCount
+                                                    request.approvalsCount,
+                                                    request.transferAmount
                                                 )
                                             }
                                             disabled={

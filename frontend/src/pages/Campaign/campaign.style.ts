@@ -99,7 +99,12 @@ export const ContractRequestCreateButton = styled(Link)`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
 `;
 
-export const RequestTableContainer = styled.div``;
+export const RequestTableContainer = styled.div`
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`;
 
 export const RequestTable = styled.table`
     border-collapse: collapse;

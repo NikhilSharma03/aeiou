@@ -5,13 +5,12 @@ import Footer from '../Footer/footer';
 
 interface Props {
     children?: React.ReactNode;
-    toggleTheme?: React.MouseEventHandler<HTMLHeadingElement> | undefined;
 }
 
-const Layout: React.FC<Props> = ({ children, toggleTheme }) => {
+const Layout: React.FC<Props> = ({ children }) => {
     return (
         <Container>
-            <Navbar toggleTheme={toggleTheme} />
+            <Navbar />
             <Main>{children}</Main>
             <Footer />
         </Container>

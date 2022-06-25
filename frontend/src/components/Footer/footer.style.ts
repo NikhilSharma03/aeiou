@@ -29,6 +29,7 @@ export const FooterMain = styled.nav`
 export const FooterUL = styled.ul`
     display: flex;
     margin: 3rem;
+    list-style: none;
 `;
 
 export const FooterItems = styled.li`

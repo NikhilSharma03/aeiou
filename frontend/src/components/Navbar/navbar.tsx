@@ -14,11 +14,7 @@ import { FaHome, FaUserAlt } from 'react-icons/fa';
 import { onConnectWallet } from './../../redux/actions/user';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 
-interface Props {
-    toggleTheme: React.MouseEventHandler<HTMLHeadingElement> | undefined;
-}
-
-const Navbar: React.FC<Props> = ({ toggleTheme }) => {
+const Navbar: React.FC = () => {
     const dispatch = useAppDispatch();
     const connectWallet = () => dispatch(onConnectWallet());
     const isWalletConnected: boolean = useAppSelector(
@@ -30,7 +26,7 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
 
     return (
         <Container>
-            <Title onClick={toggleTheme}>
+            <Title>
                 AEI<span>OU</span>
             </Title>
             <NavMain>

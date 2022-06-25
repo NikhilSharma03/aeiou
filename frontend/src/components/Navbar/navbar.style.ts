@@ -34,6 +34,7 @@ export const Nav = styled.ul`
     display: flex;
     align-items: center;
     margin-right: 2rem;
+    list-style: none;
 `;
 
 export const NavItems = styled.li`

@@ -134,6 +134,10 @@ export const RequestTableRow = styled.tr`
 export const RequestTableData = styled.td`
     border: 1px solid ${({ theme }) => theme.palette.headerBottomBorder};
     padding: 1rem;
+    max-width: 20rem;
+    min-width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const ApproveButton = styled.button`

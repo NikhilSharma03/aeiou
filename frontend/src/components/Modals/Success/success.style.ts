@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ErrorModalContainer = styled.div`
+export const SuccessModalContainer = styled.div`
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@ export const ErrorModalContainer = styled.div`
     z-index: 2000;
 `;
 
-export const ErrorModalOverlay = styled.div`
+export const SuccessModalOverlay = styled.div`
     position: fixed;
     top: 0;
     left: 0;
@@ -21,7 +21,7 @@ export const ErrorModalOverlay = styled.div`
     background-color: rgba(15, 15, 15, 0.95);
 `;
 
-export const ErrorModalBody = styled.div`
+export const SuccessModalBody = styled.div`
     z-index: 2001;
     background-color: ${({ theme }) => theme.palette.body};
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -43,26 +43,24 @@ export const ErrorModalBody = styled.div`
     }
 `;
 
-export const ErrorModalHeader = styled.h1`
+export const SuccessModalHeader = styled.h1`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
     padding: 2rem;
 `;
 
-export const ErrorModalContent = styled.p`
+export const SuccessModalContent = styled.p`
     padding: 5rem 2rem;
     font-size: 1.6rem;
     color: ${({ theme }) => theme.palette.headerTitle};
-    overflow: hidden;
-    overflow-wrap: anywhere;
 `;
 
-export const ErrorButtonContainer = styled.div`
+export const SuccessButtonContainer = styled.div`
     padding: 2rem;
     display: flex;
     justify-content: flex-end;
 `;
 
-export const ErrorCloseButton = styled.div`
+export const SuccessCloseButton = styled.div`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
     padding: 1rem 3rem;
     cursor: pointer;

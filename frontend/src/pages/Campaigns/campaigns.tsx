@@ -13,9 +13,7 @@ import {
     HeadText,
     CreateCampaignText,
 } from './campaigns.style';
-import web3 from 'web3';
 import { Link } from 'react-router-dom';
-import { onConnectWallet } from './../../redux/actions/user';
 import { onGetAllContracts } from './../../redux/actions/contract';
 import { onClearUserError } from './../../redux/reducers/user';
 import { onClearContractError } from './../../redux/reducers/contract';
@@ -35,12 +33,8 @@ const Campaigns: React.FC = () => {
     const contractError: string = useAppSelector(
         (state) => state.contracts.error
     );
-    const isWalletConnected: boolean = useAppSelector(
-        (state) => state.users.isWalletConnected
-    );
     const userError: string = useAppSelector((state) => state.users.error);
 
-    const connectWallet = () => dispatch(onConnectWallet());
     const clearUserError = () => dispatch(onClearUserError());
     const clearContractError = () => dispatch(onClearContractError());
 
@@ -74,14 +68,6 @@ const Campaigns: React.FC = () => {
                     <HeadText>
                         All <span>Contracts</span>
                     </HeadText>
-                    <ConnectWalletButton
-                        disabled={isWalletConnected}
-                        onClick={connectWallet}
-                    >
-                        {isWalletConnected
-                            ? 'Wallet Connected'
-                            : 'Connect Wallet'}
-                    </ConnectWalletButton>
                 </ConnectWalletContainer>
                 <ContractContainer>
                     {contracts.length === 0 ? (

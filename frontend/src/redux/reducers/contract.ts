@@ -4,10 +4,14 @@ import {
     onGetContractByAddress,
     onCreateRequest,
     onCreateNewContract,
+    onContribute,
+    onApproveRequest,
+    onFinalizeRequest,
 } from './../actions/contract';
 
 type ContractDetails = {
     minimumAmount?: string;
+    targetAmount?: string;
     balance: string;
     totalRequest?: string;
     totalContributors?: string;
@@ -17,12 +21,14 @@ type ContractDetails = {
     imgSource: string;
     contractAddress: string;
     requests?: Request[];
+    contributors?: string[];
 };
 
 interface ContractInitialStateType {
     data: ContractDetails[];
     singleContract: ContractDetails;
     error: string;
+    completed: boolean;
     loading: boolean;
 }
 
@@ -40,6 +46,7 @@ const initialState: ContractInitialStateType = {
     data: [],
     error: '',
     loading: false,
+    completed: false,
     singleContract: {
         minimumAmount: '',
         balance: '',
@@ -63,6 +70,9 @@ export const contractSlice = createSlice({
         },
         onSetContractError: (state, { payload }) => {
             state.error = payload;
+        },
+        onResetComplete: (state) => {
+            state.completed = false;
         },
     },
     extraReducers: (builder) => {
@@ -99,8 +109,42 @@ export const contractSlice = createSlice({
         });
         builder.addCase(onCreateRequest.fulfilled, (state) => {
             state.loading = false;
+            state.completed = true;
         });
         builder.addCase(onCreateRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onContribute.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onContribute.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onContribute.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onApproveRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onApproveRequest.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onApproveRequest.rejected, (state, { payload }) => {
+            state.loading = false;
+            state.error = String(payload);
+        });
+        builder.addCase(onFinalizeRequest.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(onFinalizeRequest.fulfilled, (state) => {
+            state.loading = false;
+            state.completed = true;
+        });
+        builder.addCase(onFinalizeRequest.rejected, (state, { payload }) => {
             state.loading = false;
             state.error = String(payload);
         });
@@ -109,6 +153,7 @@ export const contractSlice = createSlice({
         });
         builder.addCase(onCreateNewContract.fulfilled, (state) => {
             state.loading = false;
+            state.completed = true;
         });
         builder.addCase(onCreateNewContract.rejected, (state, { payload }) => {
             state.loading = false;
@@ -117,7 +162,7 @@ export const contractSlice = createSlice({
     },
 });
 
-export const { onClearContractError, onSetContractError } =
+export const { onClearContractError, onSetContractError, onResetComplete } =
     contractSlice.actions;
 
 export default contractSlice.reducer;

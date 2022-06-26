@@ -11,15 +11,22 @@ import {
 import { IoMdCreate } from 'react-icons/io';
 import { MdCampaign } from 'react-icons/md';
 import { FaHome, FaUserAlt } from 'react-icons/fa';
+import { onConnectWallet } from './../../redux/actions/user';
+import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 
-interface Props {
-    toggleTheme: React.MouseEventHandler<HTMLHeadingElement> | undefined;
-}
+const Navbar: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const connectWallet = () => dispatch(onConnectWallet());
+    const isWalletConnected: boolean = useAppSelector(
+        (state) => state.users.isWalletConnected
+    );
+    const userWalletAccount: string = useAppSelector(
+        (state) => state.users.userWalletAccount
+    );
 
-const Navbar: React.FC<Props> = ({ toggleTheme }) => {
     return (
         <Container>
-            <Title onClick={toggleTheme}>
+            <Title>
                 AEI<span>OU</span>
             </Title>
             <NavMain>
@@ -40,8 +47,15 @@ const Navbar: React.FC<Props> = ({ toggleTheme }) => {
                         </NavItem>
                     </NavItems>
                 </Nav>
-                <UserAuthBtn to="/login">
-                    <FaUserAlt size={20} color="#ccc" /> Login
+                <UserAuthBtn onClick={connectWallet}>
+                    {isWalletConnected ? (
+                        <div>
+                            <FaUserAlt size={15} color="#ccc" />{' '}
+                            <span>{userWalletAccount}</span>
+                        </div>
+                    ) : (
+                        'Connect Wallet'
+                    )}
                 </UserAuthBtn>
             </NavMain>
         </Container>

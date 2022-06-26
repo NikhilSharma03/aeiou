@@ -4,21 +4,54 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
     margin-top: 7vh;
     min-height: 100vh;
+    padding: 5rem 15rem;
 `;
 
-export const BannerImgContainer = styled.div``;
+export const BannerImgContainer = styled.div`
+    height: 50rem;
+    margin-bottom: 4rem;
+    padding: 1rem;
+    background-color: ${({ theme }) => theme.palette.headerBottomBorder};
+`;
 
-export const BannerImg = styled.img``;
+export const BannerImg = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
 
 export const BannerMain = styled.div`
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
 `;
 
-export const BannerTitle = styled.h1``;
+export const BannerTitle = styled.h1`
+    color: ${({ theme }) => theme.palette.headerTitle};
+    margin-right: 2rem;
+`;
 
-export const BannerContributeButton = styled.button``;
+export const BannerContributeButton = styled.button`
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: ${({ theme }) => theme.palette.headerTitle};
+    background-color: ${({ theme }) => theme.palette.scrollBarHover};
 
-export const BannerDesc = styled.p``;
+    &:disabled {
+        background-color: ${({ theme }) => theme.palette.homeCardDesc};
+        cursor: not-allowed;
+    }
+`;
+
+export const BannerDesc = styled.p`
+    color: ${({ theme }) => theme.palette.homeCardDesc};
+    font-size: 2rem;
+    margin-bottom: 3rem;
+`;
 
 export const ContractDetailsText = styled.p`
     font-size: 1.5rem;
@@ -46,11 +79,32 @@ export const ContractDetailsText = styled.p`
 
 export const ContractRequestContainer = styled.div`
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+
+    & p {
+        margin-bottom: 0rem;
+    }
 `;
 
-export const ContractRequestCreateButton = styled(Link)``;
+export const ContractRequestCreateButton = styled(Link)`
+    padding: 1rem 1rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: ${({ theme }) => theme.palette.headerTitle};
+    background-color: ${({ theme }) => theme.palette.scrollBarHover};
+`;
 
-export const RequestTableContainer = styled.div``;
+export const RequestTableContainer = styled.div`
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`;
 
 export const RequestTable = styled.table`
     border-collapse: collapse;
@@ -59,6 +113,10 @@ export const RequestTable = styled.table`
     width: 100%;
     color: ${({ theme }) => theme.palette.headerTitle};
 `;
+
+export const RequestTableHead = styled.thead``;
+
+export const RequestTableBody = styled.tbody``;
 
 export const RequestTableHeader = styled.th`
     border: 1px solid ${({ theme }) => theme.palette.headerBottomBorder};
@@ -81,8 +139,36 @@ export const RequestTableRow = styled.tr`
 export const RequestTableData = styled.td`
     border: 1px solid ${({ theme }) => theme.palette.headerBottomBorder};
     padding: 1rem;
+    max-width: 20rem;
+    min-width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
-export const ApproveButton = styled.button``;
+export const ApproveButton = styled.button`
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: ${({ theme }) => theme.palette.headerTitle};
+    background-color: ${({ theme }) => theme.palette.scrollBarHover};
 
-export const FinalizeButton = styled.button``;
+    &:disabled {
+        background-color: ${({ theme }) => theme.palette.homeCardDesc};
+        cursor: not-allowed;
+    }
+`;
+
+export const FinalizeButton = styled.button`
+    padding: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: ${({ theme }) => theme.palette.headerTitle};
+    background-color: ${({ theme }) => theme.palette.scrollBarHover};
+
+    &:disabled {
+        background-color: ${({ theme }) => theme.palette.homeCardDesc};
+        cursor: not-allowed;
+    }
+`;

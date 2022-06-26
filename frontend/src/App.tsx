@@ -25,7 +25,7 @@ const App: React.FC = () => {
     return (
         <ThemeProvider theme={getTheme(currentTheme)}>
             <GlobalStyle />
-            <Layout toggleTheme={toggleTheme}>
+            <Layout>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="campaigns" element={<Campaigns />} />

@@ -3,8 +3,8 @@ pragma solidity^0.8.11;
 contract AEIOUCampaignFactory {
     address[] public campaigns;
 
-    function createCampaign(string memory titl, string memory desc, string memory image, uint minAmt) public {
-        AEIOUCampaign newCampaign = new AEIOUCampaign(titl, desc, image, minAmt, msg.sender);
+    function createCampaign(string memory titl, string memory desc, string memory image, uint minAmt, uint target) public {
+        AEIOUCampaign newCampaign = new AEIOUCampaign(titl, desc, image, minAmt, target, msg.sender);
         campaigns.push(address(newCampaign));
     }
 
@@ -29,15 +29,17 @@ contract AEIOUCampaign {
     string public imgSource;
     address public manager;
     uint public minimumAmount;
+    uint public targetAmount;
     mapping(address => bool) public contributors;
     address[] public contributorsList;
     uint public totalContributors;
     Request[] public requests;
 
-    constructor(string memory titl, string memory desc, string memory image, uint minAmount, address manag) {
+    constructor(string memory titl, string memory desc, string memory image, uint minAmount, uint targetAmt, address manag) {
         title = titl;
         description = desc;
         minimumAmount = minAmount;
+        targetAmount = targetAmt;
         imgSource = image;
         manager = manag;
     }
@@ -94,9 +96,10 @@ contract AEIOUCampaign {
     }
 
     // getSummary returns a summary of the contract
-    function getSummary() public view returns (uint, uint256, uint, uint, address, string memory, string memory, string memory) {
-        return(
+    function getSummary() public view returns (uint, uint, uint256, uint, uint, address, string memory, string memory, string memory) {
+        return (
             minimumAmount,
+            targetAmount,
             payable(address(this)).balance,
             requests.length,
             totalContributors,
@@ -104,7 +107,7 @@ contract AEIOUCampaign {
             title,
             description,
             imgSource
-          );
+        );
     }
 
 

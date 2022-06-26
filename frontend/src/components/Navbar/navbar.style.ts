@@ -34,6 +34,7 @@ export const Nav = styled.ul`
     display: flex;
     align-items: center;
     margin-right: 2rem;
+    list-style: none;
 `;
 
 export const NavItems = styled.li`
@@ -63,24 +64,30 @@ export const NavItem = styled(NavLink)`
     }
 `;
 
-export const UserAuthBtn = styled(Link)`
+export const UserAuthBtn = styled.div`
     display: flex;
     align-items: center;
     color: ${({ theme }) => theme.palette.headerTitle};
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
-    background: ${({ theme }) => theme.palette.headerTitleSpan};
-    padding: 1.2rem 5rem;
+    background: ${({ theme }) => theme.palette.headerTitleSpanHover};
+    padding: 1.2rem 3rem;
     border-radius: 10px;
     letter-spacing: 2px;
     transition: all 0.3s;
+    cursor: pointer;
 
-    &:hover {
-        background: ${({ theme }) => theme.palette.headerTitleSpanHover};
-    }
-
-    & svg {
-        margin-right: 0.75rem;
+    & div {
+        svg {
+            margin-right: 1rem;
+        }
+        span {
+            max-width: 15rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        display: flex;
     }
 `;

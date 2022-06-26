@@ -18,7 +18,8 @@ beforeEach(async () => {
       "First Campaign",
       "Campaign Description",
       "Campaign Image URL",
-      "100"
+      "100",
+      "1000"
     )
     .send({
       from: accounts[0],

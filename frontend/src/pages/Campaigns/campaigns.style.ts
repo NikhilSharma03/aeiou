@@ -7,7 +7,8 @@ export const Container = styled.div`
 `;
 
 export const ConnectWalletContainer = styled.div`
-    padding: 8rem;
+    padding: 2rem 8rem;
+    padding-top: 8rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -84,8 +85,8 @@ export const ContractContainer = styled.div`
 `;
 
 export const ContractCard = styled.div`
-    margin: 4rem 4rem;
-    width: 60rem;
+    margin: 3rem 3rem;
+    width: 50rem;
     padding: 2rem;
     background-color: ${({ theme }) => theme.palette.header};
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
@@ -93,7 +94,7 @@ export const ContractCard = styled.div`
 
 export const ContractCardImgContainer = styled.div`
     width: 100%;
-    height: 40rem;
+    height: 25rem;
 `;
 
 export const ContractCardImg = styled.img`
@@ -103,8 +104,9 @@ export const ContractCardImg = styled.img`
 `;
 
 export const ContractCardDetails = styled.div`
-    margin-top: 2rem;
+    margin-top: 0rem;
     padding: 2rem 0;
+    padding-bottom: 0;
 `;
 
 export const ContractCardDetailsText = styled.p`

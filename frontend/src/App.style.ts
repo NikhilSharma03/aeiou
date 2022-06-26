@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle<ThemeType>`
 }
 
 html {
-    font-size: 62.5%;
+    font-size: 55%;
 }
 
 body {
@@ -46,6 +46,10 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: ${({ theme }) => theme.palette.scrollBarHover}; 
+}
+
+.tippy-content{
+  word-wrap: break-word;
 }
 `;
 

@@ -38,6 +38,7 @@ import LoadingModal from '../../components/Modals/Loading/loading';
 import SuccessModal from '../../components/Modals/Success/success';
 import ContributeModal from '../../components/Modals/Contribute/contribute';
 import Web3 from 'web3';
+import Tippy from '@tippyjs/react';
 
 const Campaign: React.FC = () => {
     const params = useParams();
@@ -294,25 +295,59 @@ const Campaign: React.FC = () => {
                         <RequestTableBody>
                             {contractDetails.requests?.map((request) => (
                                 <RequestTableRow key={request.requestID}>
-                                    <RequestTableData>
-                                        {request.requestID}
-                                    </RequestTableData>
-                                    <RequestTableData>
-                                        {request.requestTitle}
-                                    </RequestTableData>
-                                    <RequestTableData>
-                                        {request.requestDescription}
-                                    </RequestTableData>
-                                    <RequestTableData>
-                                        {Web3.utils.fromWei(
+                                    <Tippy
+                                        content={`${request.requestID}`}
+                                        interactive={true}
+                                        interactiveBorder={20}
+                                    >
+                                        <RequestTableData>
+                                            {request.requestID}
+                                        </RequestTableData>
+                                    </Tippy>
+                                    <Tippy
+                                        content={`${request.requestTitle}`}
+                                        interactive={true}
+                                        interactiveBorder={20}
+                                    >
+                                        <RequestTableData>
+                                            {request.requestTitle}
+                                        </RequestTableData>
+                                    </Tippy>
+                                    <Tippy
+                                        content={`${request.requestDescription}`}
+                                        interactive={true}
+                                        interactiveBorder={20}
+                                    >
+                                        <RequestTableData>
+                                            {request.requestDescription}
+                                        </RequestTableData>
+                                    </Tippy>
+                                    <Tippy
+                                        content={`${Web3.utils.fromWei(
                                             request.transferAmount,
                                             'ether'
-                                        )}{' '}
-                                        ETH
-                                    </RequestTableData>
-                                    <RequestTableData>
-                                        {request.requestAmountReceiver}
-                                    </RequestTableData>
+                                        )} ETH`}
+                                        interactive={true}
+                                        interactiveBorder={20}
+                                    >
+                                        <RequestTableData>
+                                            {Web3.utils.fromWei(
+                                                request.transferAmount,
+                                                'ether'
+                                            )}{' '}
+                                            ETH
+                                        </RequestTableData>
+                                    </Tippy>
+
+                                    <Tippy
+                                        content={`${request.requestAmountReceiver}`}
+                                        interactive={true}
+                                        interactiveBorder={20}
+                                    >
+                                        <RequestTableData>
+                                            {request.requestAmountReceiver}
+                                        </RequestTableData>
+                                    </Tippy>
                                     <RequestTableData>
                                         {request.approvalsCount}/
                                         {contractDetails.totalContributors}

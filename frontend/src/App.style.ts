@@ -51,6 +51,36 @@ body {
 .tippy-content{
   word-wrap: break-word;
 }
+
+@media (max-width: 1200px) {
+  html {
+    font-size: 52.5%;
+  }
+}
+
+@media (max-width: 900px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  html {
+    font-size: 45%;
+  }
+}
+
+@media (max-width: 400px) {
+  html {
+    font-size: 42.5%;
+  }
+}
+
+@media (max-width: 300px) {
+  html {
+    font-size: 40%;
+  }
+}
 `;
 
 export default GlobalStyle;

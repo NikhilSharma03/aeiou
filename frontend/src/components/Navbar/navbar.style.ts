@@ -13,6 +13,11 @@ export const Container = styled.header`
     background-color: ${({ theme }) => theme.palette.header};
     padding: 1.5rem 2rem;
     border-bottom: 2px solid ${({ theme }) => theme.palette.headerBottomBorder};
+
+    @media (max-width: 900px) {
+        padding: 2rem 4rem;
+        justify-content: space-between;
+    }
 `;
 
 export const Title = styled.h1`
@@ -35,6 +40,10 @@ export const Nav = styled.ul`
     align-items: center;
     margin-right: 2rem;
     list-style: none;
+
+    @media (max-width: 900px) {
+        display: none;
+    }
 `;
 
 export const NavItems = styled.li`
@@ -64,6 +73,21 @@ export const NavItem = styled(NavLink)`
     }
 `;
 
+export const SideBarMenu = styled.div`
+    display: none;
+
+    & div {
+        width: 30px;
+        height: 2.5px;
+        background-color: ${({ theme }) => theme.palette.headerTitle};
+        margin: 6px 0;
+    }
+
+    @media (max-width: 900px) {
+        display: block;
+    }
+`;
+
 export const UserAuthBtn = styled.div`
     display: flex;
     align-items: center;
@@ -89,5 +113,9 @@ export const UserAuthBtn = styled.div`
             text-overflow: ellipsis;
         }
         display: flex;
+    }
+
+    @media (max-width: 900px) {
+        display: none;
     }
 `;

@@ -5,6 +5,7 @@ import {
     NavItem,
     NavItems,
     NavMain,
+    SideBarMenu,
     Title,
     UserAuthBtn,
 } from './navbar.style';
@@ -30,6 +31,11 @@ const Navbar: React.FC = () => {
                 AEI<span>OU</span>
             </Title>
             <NavMain>
+                <SideBarMenu>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </SideBarMenu>
                 <Nav>
                     <NavItems>
                         <NavItem to="/">

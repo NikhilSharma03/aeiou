@@ -27,7 +27,7 @@
 
 <div align="center">
 
-<img alt="TypeScript" src="https://img.shields.io/badge/typescript%20-%23323330.svg?&style=for-the-badge&logo=typescript&logoColor=%007acc"/>
+<img alt="TS" src="https://img.shields.io/badge/typescript%20-%23323330.svg?&style=for-the-badge&logo=typescript"/>
 <img alt="Solidity" src="https://img.shields.io/badge/solidity%20-%23323330.svg?&style=for-the-badge&logo=solidity"/>
 <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
 <img alt="Redux" src="https://img.shields.io/badge/redux%20-%23323330.svg?&style=for-the-badge&logo=redux&logoColor=764abc"/>
@@ -91,7 +91,7 @@ make setup-ui-libs
 
 Now add `Environment Variables` by creating a new `.env` file in `frontend` folder and add the contents following `.env.example`
 
-After adding `Environment Variables`, copy and paste the `.json` files from `ethereum/build` to `rontend/src/web3/campaign`
+After adding `Environment Variables`, copy and paste the `.json` files from `ethereum/build` to `frontend/src/web3/campaign`
 
 Now, Run the ui
 

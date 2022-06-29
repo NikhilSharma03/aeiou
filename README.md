@@ -49,6 +49,100 @@ src="https://img.shields.io/badge/css3%20-%231572B6.svg?&style=for-the-badge&log
 
 <br>
 
+## Setup and Installation
+
+First install ethereum dependencies
+
+```
+make setup-eth-libs
+```
+
+<br>
+
+After making changes to Smart Contract (Solidity), Compile solidity smart contract
+
+```
+make compile-eth-contract
+```
+
+<br>
+
+After compiling, Test solidity smart contract
+
+```
+make test-eth-contract
+```
+
+<br>
+
+After tests runs successfully, you are set to deploy the application
+For that first add `Environment Variables`
+
+```
+make deploy-eth-contract
+```
+
+<br>
+
+## Setup and Installation
+
+First install ethereum dependencies
+
+```
+make setup-eth-libs
+```
+
+After making changes to Smart Contract (Solidity), Compile solidity smart contract
+
+```
+make compile-eth-contract
+```
+
+After compiling, test solidity smart contract
+
+```
+make test-eth-contract
+```
+
+After tests runs successfully, you are set to deploy the application.
+
+For that first add `Environment Variables` by creating a new `.env` file in `ethereum` folder and add the contents following `.env.example`
+
+Once you have added correct credentials, deploy the smart contract
+
+```
+make deploy-eth-contract
+```
+
+Once you have successfully deployed the smart contract, you will find the address of your deployed smart contract in the terminal, copy that as it will be required in frontend to interact with your smart contract
+
+<br>
+<br>
+
+Now, Lets start by installing frontend ui dependencies
+
+```
+make setup-ui-libs
+```
+
+Now add `Environment Variables` by creating a new `.env` file in `frontend` folder and add the contents following `.env.example`
+
+Run the ui
+
+```
+run-ui
+```
+
+now the application is running at `localhost:3000`
+
+To build the frontend ui
+
+```
+build-ui
+```
+
+<br>
+
 # License
 
 <div align="center">  

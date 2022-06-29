@@ -91,7 +91,9 @@ make setup-ui-libs
 
 Now add `Environment Variables` by creating a new `.env` file in `frontend` folder and add the contents following `.env.example`
 
-Run the ui
+After adding `Environment Variables`, copy and paste the `.json` files from `ethereum/build` to `rontend/src/web3/campaign`
+
+Now, Run the ui
 
 ```
 run-ui

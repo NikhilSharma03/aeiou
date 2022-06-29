@@ -13,6 +13,18 @@ export const FormHeader = styled.div`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
     min-width: 60rem;
     padding: 2rem;
+
+    @media (max-width: 500px) {
+        min-width: 55rem;
+    }
+
+    @media (max-width: 425px) {
+        min-width: 50rem;
+    }
+
+    @media (max-width: 380px) {
+        min-width: 48rem;
+    }
 `;
 
 export const FormHeaderTitle = styled.h1`
@@ -26,6 +38,18 @@ export const Form = styled.form`
     background-color: ${({ theme }) => theme.palette.form};
     padding: 5rem 4rem;
     min-width: 60rem;
+
+    @media (max-width: 500px) {
+        min-width: 55rem;
+    }
+
+    @media (max-width: 425px) {
+        min-width: 50rem;
+    }
+
+    @media (max-width: 380px) {
+        min-width: 48rem;
+    }
 `;
 
 export const TextInput = styled.input`
@@ -61,7 +85,7 @@ export const EtherTIContainer = styled.div`
 export const EtherTILabel = styled.label`
     background-color: ${({ theme }) => theme.palette.scrollBarHover};
     border-radius: 0 5px 5px 0;
-    height: 3.75rem;
+    height: 4.2rem;
     display: flex;
     align-items: center;
     padding: 0 1rem;

@@ -6,48 +6,58 @@ export const Container = styled.header`
     top: 0;
     left: 0;
     z-index: 1000;
-    width: 100%;
-    display: flex;
+    width: 70%;
+    height: 100vh;
+    display: none;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     background-color: ${({ theme }) => theme.palette.header};
     padding: 1.5rem 2rem;
     border-bottom: 2px solid ${({ theme }) => theme.palette.headerBottomBorder};
+    transition: all 0.3s;
 
     @media (max-width: 900px) {
         padding: 2rem 4rem;
-        justify-content: space-between;
+        justify-content: center;
+        display: flex;
     }
 `;
 
-export const Title = styled.h1`
-    letter-spacing: 5px;
-    color: ${({ theme }) => theme.palette.headerTitle};
-    font-size: 2.5rem;
+export const Backdrop = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.85);
 
-    & span {
-        color: ${({ theme }) => theme.palette.headerTitleSpan};
+    @media (max-width: 900px) {
+        display: flex;
     }
 `;
 
 export const NavMain = styled.nav`
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
 `;
 
 export const Nav = styled.ul`
     display: flex;
-    align-items: center;
-    margin-right: 2rem;
+    flex-direction: column;
+    align-items: flex-start;
     list-style: none;
-
-    @media (max-width: 900px) {
-        display: none;
-    }
+    width: 100%;
 `;
 
 export const NavItems = styled.li`
-    margin-right: 3rem;
+    margin-bottom: 3rem;
+    width: 100%;
+    border-bottom: 2px solid ${({ theme }) => theme.palette.headerBottomBorder};
 
     & svg {
         margin-right: 0.75rem;
@@ -70,22 +80,6 @@ export const NavItem = styled(NavLink)`
     &:hover svg {
         fill: ${({ theme }) => theme.palette.headerTitleSpan};
         color: ${({ theme }) => theme.palette.headerTitleSpan};
-    }
-`;
-
-export const SideBarMenu = styled.div`
-    display: none;
-    cursor: pointer;
-
-    & div {
-        width: 30px;
-        height: 2.5px;
-        background-color: ${({ theme }) => theme.palette.headerTitle};
-        margin: 6px 0;
-    }
-
-    @media (max-width: 900px) {
-        display: block;
     }
 `;
 
@@ -114,9 +108,5 @@ export const UserAuthBtn = styled.div`
             text-overflow: ellipsis;
         }
         display: flex;
-    }
-
-    @media (max-width: 900px) {
-        display: none;
     }
 `;

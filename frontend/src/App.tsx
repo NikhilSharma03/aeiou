@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout/layout';
 import { ThemeProvider } from 'styled-components';
 import themeScheme from './theme/schema';
@@ -35,6 +35,7 @@ const App: React.FC = () => {
                         path="requests/:address/new"
                         element={<NewRequest />}
                     />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Layout>
         </ThemeProvider>

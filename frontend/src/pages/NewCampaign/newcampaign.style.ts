@@ -13,6 +13,18 @@ export const FormHeader = styled.div`
     min-width: 60rem;
     padding: 2rem;
     margin-top: 7rem;
+
+    @media (max-width: 500px) {
+        min-width: 55rem;
+    }
+
+    @media (max-width: 425px) {
+        min-width: 50rem;
+    }
+
+    @media (max-width: 380px) {
+        min-width: 48rem;
+    }
 `;
 
 export const FormHeaderTitle = styled.h1`
@@ -22,10 +34,22 @@ export const FormHeaderTitle = styled.h1`
 `;
 
 export const Form = styled.form`
-    border-radius: 5px;
+    border-radius: 0 0 5px 5px;
     background-color: ${({ theme }) => theme.palette.form};
     padding: 5rem 4rem;
     min-width: 60rem;
+
+    @media (max-width: 500px) {
+        min-width: 55rem;
+    }
+
+    @media (max-width: 425px) {
+        min-width: 50rem;
+    }
+
+    @media (max-width: 380px) {
+        min-width: 48rem;
+    }
 `;
 
 export const NCDiv = styled.div`

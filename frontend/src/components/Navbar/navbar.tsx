@@ -5,6 +5,7 @@ import {
     NavItem,
     NavItems,
     NavMain,
+    SideBarMenu,
     Title,
     UserAuthBtn,
 } from './navbar.style';
@@ -14,7 +15,11 @@ import { FaHome, FaUserAlt } from 'react-icons/fa';
 import { onConnectWallet } from './../../redux/actions/user';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 
-const Navbar: React.FC = () => {
+interface Props {
+    toggleSideDrawer: React.MouseEventHandler<HTMLDivElement> | undefined;
+}
+
+const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
     const dispatch = useAppDispatch();
     const connectWallet = () => dispatch(onConnectWallet());
     const isWalletConnected: boolean = useAppSelector(
@@ -30,6 +35,11 @@ const Navbar: React.FC = () => {
                 AEI<span>OU</span>
             </Title>
             <NavMain>
+                <SideBarMenu onClick={toggleSideDrawer}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </SideBarMenu>
                 <Nav>
                     <NavItems>
                         <NavItem to="/">

@@ -13,11 +13,22 @@ export const Main = styled.div`
     align-items: center;
     padding: 0 3rem;
     min-height: 100vh;
+
+    @media (max-width: 900px) {
+        flex-direction: column-reverse;
+    }
 `;
 
 export const Content = styled.div`
     flex: 1;
     padding-left: 3rem;
+
+    @media (max-width: 900px) {
+        padding-left: 0rem;
+        text-align: center;
+
+        transform: translateY(-5rem);
+    }
 `;
 
 export const ContentHead = styled.h1`
@@ -36,6 +47,14 @@ export const ContentHead = styled.h1`
             color: ${({ theme }) => theme.palette.homeSpanHover};
         }
     }
+
+    @media (max-width: 650px) {
+        font-size: 6rem;
+    }
+
+    @media (max-width: 490px) {
+        font-size: 5rem;
+    }
 `;
 
 export const ContentPara = styled.p`
@@ -53,6 +72,18 @@ export const ContentPara = styled.p`
             color: ${({ theme }) => theme.palette.homeSpanHover};
         }
     }
+
+    @media (max-width: 900px) {
+        font-style: initial;
+    }
+
+    @media (max-width: 650px) {
+        font-size: 2.75rem;
+    }
+
+    @media (max-width: 490px) {
+        font-size: 2.5rem;
+    }
 `;
 
 export const BannerContainer = styled.div`
@@ -62,6 +93,21 @@ export const BannerContainer = styled.div`
 export const Banner = styled.div`
     display: flex;
     justify-content: center;
+
+    @media (max-width: 900px) {
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 15rem;
+    }
+
+    @media (max-width: 800px) {
+        width: 90%;
+    }
+
+    @media (max-width: 550px) {
+        width: 100%;
+        transform: translateY(10rem);
+    }
 `;
 
 export const BannerImage = styled.img`
@@ -100,6 +146,10 @@ export const WorksHead = styled.h1`
 export const WorksBoxContainer = styled.div`
     display: flex;
     margin: 10rem 2rem;
+
+    @media (max-width: 1150px) {
+        flex-direction: column;
+    }
 `;
 
 export const WorksBox = styled.div`
@@ -116,6 +166,33 @@ export const WorksBox = styled.div`
 
     &:last-child {
         margin-right: 0;
+    }
+
+    @media (max-width: 1150px) {
+        margin: 0 auto;
+        margin-bottom: 15rem;
+        width: 45%;
+
+        &:last-child {
+            margin-bottom: 0rem;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 900px) {
+        width: 55%;
+    }
+
+    @media (max-width: 800px) {
+        width: 60%;
+    }
+
+    @media (max-width: 700px) {
+        width: 75%;
+    }
+
+    @media (max-width: 550px) {
+        width: 100%;
     }
 `;
 

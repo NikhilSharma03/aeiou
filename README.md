@@ -3,7 +3,7 @@
 <div align="center">  
 <br>
 
-<img width=100% src="https://github.com/NikhilSharma03/DevMind/blob/main/assets/banner.png"></p>
+<img width=100% src="https://github.com/NikhilSharma03/AEIOU/blob/main/assets/banner.png"></p>
 
 </div>
 

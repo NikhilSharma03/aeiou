@@ -30,10 +30,19 @@ export const FooterUL = styled.ul`
     display: flex;
     margin: 3rem;
     list-style: none;
+
+    @media (max-width: 550px) {
+        flex-direction: column;
+    }
 `;
 
 export const FooterItems = styled.li`
     margin-right: 3rem;
+
+    @media (max-width: 550px) {
+        margin-right: 0rem;
+        margin-bottom: 3rem;
+    }
 
     & svg {
         margin-right: 0.75rem;

@@ -5,6 +5,19 @@ export const Container = styled.div`
     margin-top: 7vh;
     min-height: 100vh;
     padding: 5rem 15rem;
+
+    @media (max-width: 1100px) {
+        padding: 5rem;
+    }
+
+    @media (max-width: 900px) {
+        padding: 5rem 2rem;
+    }
+
+    @media (max-width: 550px) {
+        min-height: fit-content;
+        padding: 10rem 2rem;
+    }
 `;
 
 export const BannerImgContainer = styled.div`

@@ -39,9 +39,13 @@ export const FooterUL = styled.ul`
 export const FooterItems = styled.li`
     margin-right: 3rem;
 
+    @media (max-width: 625px) {
+        margin-right: 2rem;
+    }
+
     @media (max-width: 550px) {
         margin-right: 0rem;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
     }
 
     & svg {

@@ -96,7 +96,7 @@ After adding `Environment Variables`, copy and paste the `.json` files from `eth
 Now, Run the ui
 
 ```
-run-ui
+make run-ui
 ```
 
 now the application is running at `localhost:3000`
@@ -104,7 +104,7 @@ now the application is running at `localhost:3000`
 To build the frontend ui
 
 ```
-build-ui
+make build-ui
 ```
 
 <br>

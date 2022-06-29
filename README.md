@@ -57,41 +57,6 @@ First install ethereum dependencies
 make setup-eth-libs
 ```
 
-<br>
-
-After making changes to Smart Contract (Solidity), Compile solidity smart contract
-
-```
-make compile-eth-contract
-```
-
-<br>
-
-After compiling, Test solidity smart contract
-
-```
-make test-eth-contract
-```
-
-<br>
-
-After tests runs successfully, you are set to deploy the application
-For that first add `Environment Variables`
-
-```
-make deploy-eth-contract
-```
-
-<br>
-
-## Setup and Installation
-
-First install ethereum dependencies
-
-```
-make setup-eth-libs
-```
-
 After making changes to Smart Contract (Solidity), Compile solidity smart contract
 
 ```

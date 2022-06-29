@@ -29,7 +29,7 @@
 
 <img alt="TypeScript" src="https://img.shields.io/badge/typescript%20-%23323330.svg?&style=for-the-badge&logo=typescript&logoColor=%007acc"/>
 <img alt="Solidity" src="https://img.shields.io/badge/solidity%20-%23323330.svg?&style=for-the-badge&logo=solidity"/>
-[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/docs/getting-started.html)
+<img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
 <img alt="Redux" src="https://img.shields.io/badge/redux%20-%23323330.svg?&style=for-the-badge&logo=redux&logoColor=764abc"/>
 <img alt="Web3" src="https://img.shields.io/badge/web3.js%20-%23323330.svg?&style=for-the-badge&logo=web3.js&logoColor=%23F7DF1E"/>
 <img alt="CSS3" 
@@ -81,7 +81,6 @@ make deploy-eth-contract
 
 Once you have successfully deployed the smart contract, you will find the address of your deployed smart contract in the terminal, copy that as it will be required in frontend to interact with your smart contract
 
-<br>
 <br>
 
 Now, Lets start by installing frontend ui dependencies

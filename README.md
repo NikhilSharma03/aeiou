@@ -109,6 +109,20 @@ make build-ui
 
 <br>
 
+If we want to use Docker, first go to `frontend` folder and build docker image,
+
+```
+docker build -t aeiou-ui .
+```
+
+Now, we can use the image
+
+```
+docker run -p 3000:3000 aeiou-ui
+```
+
+<br>
+
 # License
 
 <div align="center">  

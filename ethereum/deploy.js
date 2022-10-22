@@ -1,29 +1,34 @@
-const HDWalletProvider = require("@truffle/hdwallet-provider");
 const Web3 = require("web3");
 const AEIOUCampaignFactory = require("./build/AEIOUCampaignFactory.json");
 
 require("dotenv").config();
-const provider = new HDWalletProvider(
-  process.env.WALLET_SECRET,
-  process.env.INFURA_LINK
-);
-const web3 = new Web3(provider);
 
 const deploy = async () => {
-  const accounts = await web3.eth.getAccounts();
-  const deployAccount = accounts[0];
-  console.log("Deploying with account :", deployAccount);
-
-  const factory = await new web3.eth.Contract(AEIOUCampaignFactory.abi)
-    .deploy({ data: AEIOUCampaignFactory.evm.bytecode.object })
-    .send({ from: deployAccount, gas: "3000000" });
-
-  console.log(
-    "AEIOU Campaign Factory Contract Address :",
-    factory.options.address
+  // Configuring the connection to an Ethereum node
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(process.env.INFURA_LINK)
   );
 
-  provider.engine.stop();
+  // Creating a signing account from a private key
+  const signer = web3.eth.accounts.privateKeyToAccount(process.env.PRIVATE_KEY);
+  web3.eth.accounts.wallet.add(signer);
+
+  // Using the signing account to deploy the contract
+  const contract = new web3.eth.Contract(AEIOUCampaignFactory.abi);
+  contract.options.data = AEIOUCampaignFactory.evm.bytecode.object;
+
+  const deployTx = contract.deploy();
+  const deployedContract = await deployTx
+    .send({
+      from: signer.address,
+      gas: await deployTx.estimateGas(),
+    })
+    .once("transactionHash", (txhash) => {
+      console.log(txhash);
+    });
+
+  // The contract is now deployed on chain!
+  console.log(`Contract deployed at ${deployedContract.options.address}`);
 };
 
 deploy();

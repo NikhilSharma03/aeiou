@@ -1,22 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import web3Modal from '../../utils/web3modal';
+import Web3 from 'web3';
 
 export const onConnectWallet = createAsyncThunk<
-    string,
+    { account: string; web3: Web3 },
     void,
     { rejectValue: string }
 >('user/connectWallet', async (_, { rejectWithValue }) => {
-    const { ethereum } = window;
-    if (!ethereum) {
-        return rejectWithValue('Please install MetaMask');
-    }
     try {
-        const accounts = await ethereum.request({
-            method: 'eth_requestAccounts',
-        });
-        let account = accounts[0];
-        if (account !== '') {
-            return account;
-        }
+        localStorage.clear();
+        const provider = await web3Modal.connect();
+        const web3 = new Web3(provider);
+        const accounts = await web3.eth.getAccounts();
+        return { web3, account: accounts[0] };
     } catch (err) {
         return rejectWithValue('Failed to connect to MetaMask');
     }

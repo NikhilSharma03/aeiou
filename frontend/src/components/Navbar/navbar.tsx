@@ -46,16 +46,21 @@ const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
                             <FaHome size={25} color="#ccc" /> Home
                         </NavItem>
                     </NavItems>
-                    <NavItems>
-                        <NavItem to="/campaigns">
-                            <MdCampaign size={25} color="#ccc" /> Campaigns
-                        </NavItem>
-                    </NavItems>
-                    <NavItems>
-                        <NavItem to="/campaigns/new">
-                            <IoMdCreate size={25} color="#ccc" /> New Campaign
-                        </NavItem>
-                    </NavItems>
+                    {isWalletConnected && (
+                        <NavItems>
+                            <NavItem to="/campaigns">
+                                <MdCampaign size={25} color="#ccc" /> Campaigns
+                            </NavItem>
+                        </NavItems>
+                    )}
+                    {isWalletConnected && (
+                        <NavItems>
+                            <NavItem to="/campaigns/new">
+                                <IoMdCreate size={25} color="#ccc" /> New
+                                Campaign
+                            </NavItem>
+                        </NavItems>
+                    )}
                 </Nav>
                 <UserAuthBtn onClick={connectWallet}>
                     {isWalletConnected ? (

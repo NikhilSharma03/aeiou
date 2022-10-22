@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Container,
     ETHLabel,
@@ -20,8 +20,10 @@ import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import ErrorModal from '../../components/Modals/Error/error';
 import SuccessModal from '../../components/Modals/Success/success';
+import { useNavigate } from 'react-router-dom';
 
 const NewCampaign: React.FC = () => {
+    const navigate = useNavigate();
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string>('');
@@ -31,9 +33,13 @@ const NewCampaign: React.FC = () => {
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
     );
+    const web3 = useAppSelector((state) => state.users.web3);
     const loading = useAppSelector((state) => state.contracts.loading);
     const error = useAppSelector((state) => state.contracts.error);
     const completed = useAppSelector((state) => state.contracts.completed);
+    const isWalletConnected = useAppSelector(
+        (state) => state.users.isWalletConnected
+    );
 
     const createNewContract = (
         name,
@@ -45,12 +51,15 @@ const NewCampaign: React.FC = () => {
     ) =>
         dispatch(
             onCreateNewContract({
-                name,
-                description,
-                imageURL,
-                minimumContribution,
-                userWalletAccount,
-                targetAmount: targetAmt,
+                account: {
+                    name,
+                    description,
+                    imageURL,
+                    minimumContribution,
+                    userWalletAccount,
+                    targetAmount: targetAmt,
+                },
+                web3,
             })
         );
 
@@ -111,6 +120,12 @@ const NewCampaign: React.FC = () => {
             userWalletAccount
         );
     };
+
+    useEffect(() => {
+        if (!isWalletConnected) {
+            navigate('/');
+        }
+    }, []);
 
     return (
         <Container>

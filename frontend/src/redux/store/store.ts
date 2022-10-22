@@ -7,6 +7,10 @@ export const store = configureStore({
         users: usersReducer,
         contracts: contractsReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });
 
 export type AppDispatch = typeof store.dispatch;

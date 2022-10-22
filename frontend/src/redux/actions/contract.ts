@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import AEIOUCampaign from './../../web3/campaign/AEIOUCampaign.json';
-import { getFactoryInstance } from './../../web3/factoryInstance';
-import web3 from './../../web3/web3';
+import AEIOUCampaign from './../../data/AEIOUCampaign.json';
+import AEIOUCampaignFactory from './../../data/AEIOUCampaignFactory.json';
 
 type AbiItem = any;
 
@@ -51,12 +50,15 @@ type CreateContract = {
 
 export const onGetAllContracts = createAsyncThunk<
     ContractDetails[],
-    void,
+    any,
     { rejectValue: string }
->('contract/getAllContracts', async (_, { rejectWithValue }) => {
+>('contract/getAllContracts', async (web3, { rejectWithValue }) => {
     try {
         // getFactory instance
-        const aeiouFactory: any = getFactoryInstance();
+        const aeiouFactory: any = await new web3.eth.Contract(
+            AEIOUCampaignFactory.abi,
+            process.env.REACT_APP_CAMPAIGN_ADDRESS
+        );
         const abi: AbiItem = AEIOUCampaign.abi;
 
         // Result array
@@ -91,192 +93,181 @@ export const onGetAllContracts = createAsyncThunk<
 
 export const onGetContractByAddress = createAsyncThunk<
     ContractDetails,
-    string,
+    { address: string; web3: any },
     { rejectValue: string }
->('contract/getContractByAddress', async (address, { rejectWithValue }) => {
+>(
+    'contract/getContractByAddress',
+    async ({ address, web3 }, { rejectWithValue }) => {
+        try {
+            // getFactory instance
+            const abi: AbiItem = AEIOUCampaign.abi;
+            // Single contract
+            const campaign = await new web3.eth.Contract(abi, address);
+            const val = await campaign.methods.getSummary().call();
+
+            const requests: Request[] = [];
+            for (let i = 0; i < val[3]; i++) {
+                const requestData = await campaign.methods.requests(i).call();
+                const request: Request = {
+                    requestID: i,
+                    requestTitle: requestData.title,
+                    requestDescription: requestData.description,
+                    transferAmount: requestData.amount,
+                    requestAmountReceiver: requestData.receiver,
+                    approvalsCount: requestData.approvalsCount,
+                    isRequestCompleted: requestData.completed,
+                };
+                requests.push(request);
+            }
+
+            const contributors: string[] = [];
+            for (let i = 0; i < val[4]; i++) {
+                const contributorAdd: string = await campaign.methods
+                    .contributorsList(i)
+                    .call();
+                contributors.push(contributorAdd.toLowerCase());
+            }
+
+            const result: ContractDetails = {
+                minimumAmount: val[0],
+                targetAmount: val[1],
+                balance: val[2],
+                totalRequest: val[3],
+                totalContributors: val[4],
+                managerAddress: val[5],
+                title: val[6],
+                description: val[7],
+                imgSource: val[8],
+                contractAddress: address,
+                requests,
+                contributors,
+            };
+            return result;
+        } catch (err) {
+            return rejectWithValue(
+                'Failed to fetch contract by address. Please reload again. ' +
+                    err
+            );
+        }
+    }
+);
+
+export const onContribute = createAsyncThunk<
+    void,
+    { camp: CreateRequest; web3: any },
+    { rejectValue: string }
+>('contract/contribute', async ({ camp, web3 }, { rejectWithValue }) => {
     try {
         // getFactory instance
         const abi: AbiItem = AEIOUCampaign.abi;
         // Single contract
-        const campaign = await new web3.eth.Contract(abi, address);
-        const val = await campaign.methods.getSummary().call();
-
-        const requests: Request[] = [];
-        for (let i = 0; i < val[3]; i++) {
-            const requestData = await campaign.methods.requests(i).call();
-            const request: Request = {
-                requestID: i,
-                requestTitle: requestData.title,
-                requestDescription: requestData.description,
-                transferAmount: requestData.amount,
-                requestAmountReceiver: requestData.receiver,
-                approvalsCount: requestData.approvalsCount,
-                isRequestCompleted: requestData.completed,
-            };
-            requests.push(request);
-        }
-
-        const contributors: string[] = [];
-        for (let i = 0; i < val[4]; i++) {
-            const contributorAdd: string = await campaign.methods
-                .contributorsList(i)
-                .call();
-            contributors.push(contributorAdd.toLowerCase());
-        }
-
-        const result: ContractDetails = {
-            minimumAmount: val[0],
-            targetAmount: val[1],
-            balance: val[2],
-            totalRequest: val[3],
-            totalContributors: val[4],
-            managerAddress: val[5],
-            title: val[6],
-            description: val[7],
-            imgSource: val[8],
-            contractAddress: address,
-            requests,
-            contributors,
-        };
-        return result;
+        const campaign = await new web3.eth.Contract(abi, camp.campaignAddress);
+        await campaign.methods
+            .contribute()
+            .send({ from: camp.userAddress, value: camp.amount });
     } catch (err) {
         return rejectWithValue(
-            'Failed to fetch contract by address. Please reload again. ' + err
+            'Failed to contribute. Please try again. ' + err
         );
     }
 });
 
-export const onContribute = createAsyncThunk<
-    void,
-    CreateRequest,
-    { rejectValue: string }
->(
-    'contract/contribute',
-    async ({ campaignAddress, userAddress, amount }, { rejectWithValue }) => {
-        try {
-            // getFactory instance
-            const abi: AbiItem = AEIOUCampaign.abi;
-            // Single contract
-            const campaign = await new web3.eth.Contract(abi, campaignAddress);
-            await campaign.methods
-                .contribute()
-                .send({ from: userAddress, value: amount });
-        } catch (err) {
-            return rejectWithValue(
-                'Failed to contribute. Please try again. ' + err
-            );
-        }
-    }
-);
-
 export const onApproveRequest = createAsyncThunk<
     void,
-    CreateRequest,
+    { camp: CreateRequest; web3: any },
     { rejectValue: string }
->(
-    'contract/approveRequest',
-    async (
-        { campaignAddress, userAddress, requestID },
-        { rejectWithValue }
-    ) => {
-        try {
-            // getFactory instance
-            const abi: AbiItem = AEIOUCampaign.abi;
-            // Single contract
-            const campaign = await new web3.eth.Contract(abi, campaignAddress);
-            await campaign.methods
-                .approveRequest(requestID)
-                .send({ from: userAddress });
-        } catch (err) {
-            return rejectWithValue(
-                "Failed to contribute. Please make sure you haven't approved already."
-            );
-        }
+>('contract/approveRequest', async ({ camp, web3 }, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        const abi: AbiItem = AEIOUCampaign.abi;
+        // Single contract
+        const campaign = await new web3.eth.Contract(abi, camp.campaignAddress);
+        await campaign.methods
+            .approveRequest(camp.requestID)
+            .send({ from: camp.userAddress });
+    } catch (err) {
+        return rejectWithValue(
+            "Failed to contribute. Please make sure you haven't approved already."
+        );
     }
-);
+});
 
 export const onFinalizeRequest = createAsyncThunk<
     void,
-    CreateRequest,
+    { camp: CreateRequest; web3: any },
     { rejectValue: string }
->(
-    'contract/finalizeRequest',
-    async (
-        { campaignAddress, userAddress, requestID },
-        { rejectWithValue }
-    ) => {
-        try {
-            // getFactory instance
-            const abi: AbiItem = AEIOUCampaign.abi;
-            // Single contract
-            const campaign = await new web3.eth.Contract(abi, campaignAddress);
-            await campaign.methods
-                .finalizeRequest(requestID)
-                .send({ from: userAddress });
-        } catch (err) {
-            return rejectWithValue(
-                'Failed to contribute. Please try again. ' + err
-            );
-        }
+>('contract/finalizeRequest', async ({ camp, web3 }, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        const abi: AbiItem = AEIOUCampaign.abi;
+        // Single contract
+        const campaign = await new web3.eth.Contract(abi, camp.campaignAddress);
+        await campaign.methods
+            .finalizeRequest(camp.requestID)
+            .send({ from: camp.userAddress });
+    } catch (err) {
+        return rejectWithValue(
+            'Failed to contribute. Please try again. ' + err
+        );
     }
-);
+});
 
 export const onCreateRequest = createAsyncThunk<
     void,
-    CreateRequest,
+    { camp: CreateRequest; web3: any },
     { rejectValue: string }
->(
-    'contract/createRequest',
-    async (
-        { campaignAddress, userAddress, title, desc, receiver, amount },
-        { rejectWithValue }
-    ) => {
-        try {
-            // getFactory instance
-            const abi: AbiItem = AEIOUCampaign.abi;
-            // Single contract
-            const campaign = await new web3.eth.Contract(abi, campaignAddress);
-            await campaign.methods
-                .createRequest(title, desc, receiver, amount)
-                .send({ from: userAddress });
-        } catch (err) {
-            return rejectWithValue(
-                'Failed to create new request. Please reload again. ' + err
-            );
-        }
+>('contract/createRequest', async ({ camp, web3 }, { rejectWithValue }) => {
+    try {
+        // getFactory instance
+        const abi: AbiItem = AEIOUCampaign.abi;
+        // Single contract
+        const campaign = await new web3.eth.Contract(abi, camp.campaignAddress);
+        await campaign.methods
+            .createRequest(camp.title, camp.desc, camp.receiver, camp.amount)
+            .send({ from: camp.userAddress });
+    } catch (err) {
+        return rejectWithValue(
+            'Failed to create new request. Please reload again. ' + err
+        );
     }
-);
+});
 
 export const onCreateNewContract = createAsyncThunk<
     CreateContract,
-    CreateContract,
+    { account: CreateContract; web3: any },
     { rejectValue: string }
->('contract/createNewContract', async (account, { rejectWithValue }) => {
-    try {
-        // getFactory instance
-        let aeiouFactory: any = getFactoryInstance();
-        // Fetch all campaigns
-        const nC: CreateContract = {
-            name: account.name,
-            description: account.description,
-            imageURL: account.imageURL,
-            minimumContribution: account.minimumContribution,
-            targetAmount: account.targetAmount,
-            userWalletAccount: account.userWalletAccount,
-        };
-        await aeiouFactory.methods
-            .createCampaign(
-                nC.name,
-                nC.description,
-                nC.imageURL,
-                nC.minimumContribution,
-                nC.targetAmount
-            )
-            .send({
-                from: nC.userWalletAccount,
-            });
-        return nC;
-    } catch (err) {
-        return rejectWithValue('Failed to create new contract! ' + err);
+>(
+    'contract/createNewContract',
+    async ({ account, web3 }, { rejectWithValue }) => {
+        try {
+            // getFactory instance
+            let aeiouFactory: any = await new web3.eth.Contract(
+                AEIOUCampaignFactory.abi,
+                process.env.REACT_APP_CAMPAIGN_ADDRESS
+            );
+            // Fetch all campaigns
+            const nC: CreateContract = {
+                name: account.name,
+                description: account.description,
+                imageURL: account.imageURL,
+                minimumContribution: account.minimumContribution,
+                targetAmount: account.targetAmount,
+                userWalletAccount: account.userWalletAccount,
+            };
+            await aeiouFactory.methods
+                .createCampaign(
+                    nC.name,
+                    nC.description,
+                    nC.imageURL,
+                    nC.minimumContribution,
+                    nC.targetAmount
+                )
+                .send({
+                    from: nC.userWalletAccount,
+                });
+            return nC;
+        } catch (err) {
+            return rejectWithValue('Failed to create new contract! ' + err);
+        }
     }
-});
+);

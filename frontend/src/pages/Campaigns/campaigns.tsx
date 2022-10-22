@@ -13,7 +13,7 @@ import {
     HeadText,
     CreateCampaignText,
 } from './campaigns.style';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { onGetAllContracts } from './../../redux/actions/contract';
 import { onClearUserError } from './../../redux/reducers/user';
 import { onClearContractError } from './../../redux/reducers/contract';
@@ -24,6 +24,7 @@ import LoadingModal from '../../components/Modals/Loading/loading';
 import Web3 from 'web3';
 
 const Campaigns: React.FC = () => {
+    const navigate = useNavigate();
     const [showMetaMaskModal, setShowMetaMaskModal] = useState(false);
     const dispatch = useAppDispatch();
     const contracts = useAppSelector((state) => state.contracts.data);
@@ -33,13 +34,23 @@ const Campaigns: React.FC = () => {
     const contractError: string = useAppSelector(
         (state) => state.contracts.error
     );
+    const web3 = useAppSelector((state) => state.users.web3);
     const userError: string = useAppSelector((state) => state.users.error);
+    const isWalletConnected = useAppSelector(
+        (state) => state.users.isWalletConnected
+    );
 
     const clearUserError = () => dispatch(onClearUserError());
     const clearContractError = () => dispatch(onClearContractError());
 
     useEffect(() => {
-        dispatch(onGetAllContracts());
+        if (!isWalletConnected) {
+            navigate('/');
+            return;
+        }
+        if (web3) {
+            dispatch(onGetAllContracts(web3));
+        }
     }, []);
 
     if (userError !== '' && !showMetaMaskModal) {

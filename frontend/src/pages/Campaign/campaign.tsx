@@ -32,7 +32,7 @@ import {
     onResetComplete,
 } from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import SuccessModal from '../../components/Modals/Success/success';
@@ -43,6 +43,7 @@ import Tippy from '@tippyjs/react';
 const Campaign: React.FC = () => {
     const params = useParams();
     const address = params.address;
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [successMsg, setSuccessMsg] = useState<string>('');
     const [contributeAmount, setContributeAmount] = useState<string>('');
@@ -51,6 +52,7 @@ const Campaign: React.FC = () => {
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
     );
+    const web3 = useAppSelector((state) => state.users.web3);
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
     );
@@ -68,27 +70,47 @@ const Campaign: React.FC = () => {
         campaignAddress: string,
         userAddress: string,
         amount: string
-    ) => dispatch(onContribute({ campaignAddress, userAddress, amount }));
+    ) =>
+        dispatch(
+            onContribute({
+                camp: { campaignAddress, userAddress, amount },
+                web3,
+            })
+        );
 
     const approve = (
         campaignAddress: string,
         userAddress: string,
         requestID: number
     ) =>
-        dispatch(onApproveRequest({ campaignAddress, userAddress, requestID }));
+        dispatch(
+            onApproveRequest({
+                camp: { campaignAddress, userAddress, requestID },
+                web3,
+            })
+        );
     const finalize = (
         campaignAddress: string,
         userAddress: string,
         requestID: number
     ) =>
         dispatch(
-            onFinalizeRequest({ campaignAddress, userAddress, requestID })
+            onFinalizeRequest({
+                camp: { campaignAddress, userAddress, requestID },
+                web3,
+            })
         );
 
-    console.log(contractDetails, loading, error);
-
     useEffect(() => {
-        dispatch(onGetContractByAddress(String(address)));
+        if (!isWalletConnected) {
+            navigate('/');
+            return;
+        }
+        if (web3) {
+            dispatch(
+                onGetContractByAddress({ address: String(address), web3 })
+            );
+        }
     }, []);
 
     const contributeHandler = async () => {
@@ -122,7 +144,9 @@ const Campaign: React.FC = () => {
         );
         setSuccessMsg('Contributed Successfully!');
         setContributeAmount('');
-        await dispatch(onGetContractByAddress(String(address)));
+        await dispatch(
+            onGetContractByAddress({ address: String(address), web3 })
+        );
     };
 
     const approveHandler = async (requestID: number) => {
@@ -133,7 +157,9 @@ const Campaign: React.FC = () => {
         }
         await approve(String(address), userWalletAccount, requestID);
         setSuccessMsg('Approved Successfully!');
-        await dispatch(onGetContractByAddress(String(address)));
+        await dispatch(
+            onGetContractByAddress({ address: String(address), web3 })
+        );
     };
 
     const finalizeHandler = async (
@@ -146,7 +172,8 @@ const Campaign: React.FC = () => {
             return;
         }
         if (
-            userWalletAccount !== contractDetails.managerAddress.toLowerCase()
+            userWalletAccount.toLocaleLowerCase() !==
+            contractDetails.managerAddress.toLowerCase()
         ) {
             setError('Unauthorized Request!');
             return;
@@ -162,7 +189,9 @@ const Campaign: React.FC = () => {
         }
         await finalize(String(address), userWalletAccount, requestID);
         setSuccessMsg('Finalized Successfully!');
-        await dispatch(onGetContractByAddress(String(address)));
+        await dispatch(
+            onGetContractByAddress({ address: String(address), web3 })
+        );
     };
 
     return (
@@ -257,7 +286,7 @@ const Campaign: React.FC = () => {
                         </label>
                     </ContractDetailsText>
                     {contractDetails.managerAddress.toLowerCase() ===
-                        userWalletAccount && (
+                        userWalletAccount.toLocaleLowerCase() && (
                         <ContractRequestCreateButton
                             to={`/requests/${address}/new`}
                         >

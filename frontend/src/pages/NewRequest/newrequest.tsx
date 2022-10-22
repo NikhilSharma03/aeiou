@@ -33,6 +33,7 @@ const NewRequest: React.FC = () => {
     const userWalletAccount = useAppSelector(
         (state) => state.users.userWalletAccount
     );
+    const web3 = useAppSelector((state) => state.users.web3);
     const loading = useAppSelector((state) => state.contracts.loading);
     const error = useAppSelector((state) => state.contracts.error);
     const completed = useAppSelector((state) => state.contracts.completed);
@@ -47,12 +48,15 @@ const NewRequest: React.FC = () => {
     ) => {
         dispatch(
             onCreateRequest({
-                campaignAddress,
-                userAddress,
-                title,
-                desc,
-                receiver,
-                amount,
+                camp: {
+                    campaignAddress,
+                    userAddress,
+                    title,
+                    desc,
+                    receiver,
+                    amount,
+                },
+                web3,
             })
         );
     };

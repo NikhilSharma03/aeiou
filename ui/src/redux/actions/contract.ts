@@ -57,7 +57,7 @@ export const onGetAllContracts = createAsyncThunk<
         // getFactory instance
         const aeiouFactory: any = await new web3.eth.Contract(
             AEIOUCampaignFactory.abi,
-            process.env.REACT_APP_CAMPAIGN_ADDRESS
+            process.env.REACT_APP_CAMPAIGN_FACTORY_ADDRESS
         );
         const abi: AbiItem = AEIOUCampaign.abi;
 
@@ -243,7 +243,7 @@ export const onCreateNewContract = createAsyncThunk<
             // getFactory instance
             let aeiouFactory: any = await new web3.eth.Contract(
                 AEIOUCampaignFactory.abi,
-                process.env.REACT_APP_CAMPAIGN_ADDRESS
+                process.env.REACT_APP_CAMPAIGN_FACTORY_ADDRESS
             );
             // Fetch all campaigns
             const nC: CreateContract = {

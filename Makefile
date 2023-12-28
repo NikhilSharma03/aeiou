@@ -1,5 +1,4 @@
 ## AEIOU Solidity contract commands
-
 .PHONY: setup-contract-libs
 setup-contract-libs: 
 	cd contract; npm install; cd ..
@@ -17,12 +16,14 @@ deploy-contract:
 	cd contract; npm run deploy; cd ..
 
 ## UI app commands
-
+.PHONY: setup-ui-libs
 setup-ui-libs: 
-	cd frontend; npm install; cd ..
+	cd ui; npm install; cd ..
 
-run-ui: 
-	cd frontend; npm start; cd ..
+.PHONY: run-ui-dev
+run-ui-dev: 
+	cd ui; npm start; cd ..
 
+.PHONY: build-ui
 build-ui: 
-	cd frontend; npm run build; cd ..
+	cd ui; npm run build; cd ..

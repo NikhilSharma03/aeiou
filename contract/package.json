@@ -8,13 +8,12 @@
   },
   "scripts": {
     "compile": "node compile.js",
-    "deploy": "node deploy.js",
-    "test": "mocha"
+    "test": "mocha",
+    "deploy": "node deploy.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^2.0.5",
     "dotenv": "^16.0.0",
     "fs-extra": "^10.0.1",
     "ganache-cli": "^6.12.2",

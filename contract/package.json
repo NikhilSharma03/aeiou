@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "compile": "node compile.js",
+    "compile": "node scripts/compile.js",
     "test": "mocha",
-    "deploy": "node deploy.js"
+    "deploy": "node scripts/deploy.js"
   },
   "author": "",
   "license": "ISC",

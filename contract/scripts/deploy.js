@@ -1,7 +1,7 @@
 const Web3 = require('web3')
 require('dotenv').config()
 
-const AEIOUCampaignFactory = require('./abi/AEIOUCampaignFactory.json')
+const AEIOUCampaignFactory = require('./../abi/AEIOUCampaignFactory.json')
 
 const deploy = async () => {
   console.log('Started deploying contract...')

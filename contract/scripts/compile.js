@@ -2,7 +2,7 @@ const path = require('path')
 const solc = require('solc')
 const fs = require('fs-extra')
 
-const abiPath = path.resolve(__dirname, 'abi')
+const abiPath = path.resolve(__dirname, '..', 'abi')
 
 console.log('Started compiling contract...')
 console.log('Removing current abi directory...')
@@ -12,7 +12,7 @@ fs.ensureDirSync(abiPath)
 
 console.log('Reading solidity contract...')
 
-const aeiouContractPath = path.resolve(__dirname, 'core', 'AEIOU.sol')
+const aeiouContractPath = path.resolve(__dirname, '..', 'core', 'AEIOU.sol')
 const aeiouContractSource = fs.readFileSync(aeiouContractPath, 'utf-8')
 
 const input = {

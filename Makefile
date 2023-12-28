@@ -1,32 +1,29 @@
-## Ethereum Commands
-##
-## Install ethereum dependencies on your local machine.
-setup-eth-libs: 
-	cd ethereum; npm install; cd ..
+## AEIOU Solidity contract commands
+.PHONY: setup-contract-libs
+setup-contract-libs: 
+	cd contract; npm install; cd ..
 
-## Compile solidity smart contract
-compile-eth-contract:
-	cd ethereum; npm run compile; cd ..
+.PHONY: compile-contract
+compile-contract:
+	cd contract; npm run compile; cd ..
 
-## Test solidity smart contract
-test-eth-contract:
-	cd ethereum; npm run test; cd ..
+.PHONY: test-contract
+test-contract:
+	cd contract; npm run test; cd ..
 
-## Deploy solidity smart contract
-deploy-eth-contract:
-	cd ethereum; npm run deploy; cd ..
-##
-## ------
+.PHONY: deploy-contract
+deploy-contract:
+	cd contract; npm run deploy; cd ..
 
-
-## Application Commands
+## UI app commands
+.PHONY: setup-ui-libs
 setup-ui-libs: 
-	cd frontend; npm install; cd ..
+	cd ui; npm install; cd ..
 
-run-ui: 
-	cd frontend; npm start; cd ..
+.PHONY: run-ui-dev
+run-ui-dev: 
+	cd ui; npm start; cd ..
 
+.PHONY: build-ui
 build-ui: 
-	cd frontend; npm run build; cd ..
-##
-## ------
+	cd ui; npm run build; cd ..

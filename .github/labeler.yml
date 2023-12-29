@@ -1,0 +1,12 @@
+area/docs:
+  - 'README.md'
+  - 'assets/**/*'
+
+area/ci:
+  - '.github/**/*'
+
+area/contract:
+  - 'contract/**/*'
+
+area/ui:
+  - 'ui/**/*'

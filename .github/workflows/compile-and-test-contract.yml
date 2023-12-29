@@ -16,15 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache dependencies
-        id: cache-node-dep
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-dependencies-${{ hashFiles('package-lock.json') }}
-
       - name: Install dependencies
-        if: steps.cache-node-dep.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run Compile

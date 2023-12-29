@@ -3,7 +3,7 @@ const COLOR_PALLET = {
     lightGray: '#777',
     primaryBlack: '#191a19',
     secondaryBlack: '#111',
-    blackThree: 'rgb(42, 42, 42)',
+    blackThree: '#2a2a2a',
     primaryBlue: '#00AFC1',
     secondaryBlue: '#0093AB',
 };

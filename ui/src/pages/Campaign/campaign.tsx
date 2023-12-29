@@ -41,14 +41,14 @@ import Web3 from 'web3';
 import Tippy from '@tippyjs/react';
 
 const Campaign: React.FC = () => {
-    const params = useParams();
-    const address = params.address;
+    const address = useParams().address;
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+
     const [successMsg, setSuccessMsg] = useState<string>('');
     const [contributeAmount, setContributeAmount] = useState<string>('');
     const [showContributeModal, setShowContributeModal] =
         useState<boolean>(false);
+
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
     );
@@ -63,9 +63,14 @@ const Campaign: React.FC = () => {
     const error = useAppSelector((state) => state.contracts.error);
     const completed = useAppSelector((state) => state.contracts.completed);
 
+    const dispatch = useAppDispatch();
+
     const clearError = () => dispatch(onClearContractError());
+
     const setError = (msg: string) => dispatch(onSetContractError(msg));
+
     const resetComplete = () => dispatch(onResetComplete());
+
     const contributeToContract = (
         campaignAddress: string,
         userAddress: string,
@@ -89,6 +94,7 @@ const Campaign: React.FC = () => {
                 web3,
             })
         );
+
     const finalize = (
         campaignAddress: string,
         userAddress: string,
@@ -100,18 +106,6 @@ const Campaign: React.FC = () => {
                 web3,
             })
         );
-
-    useEffect(() => {
-        if (!isWalletConnected) {
-            navigate('/');
-            return;
-        }
-        if (web3) {
-            dispatch(
-                onGetContractByAddress({ address: String(address), web3 })
-            );
-        }
-    }, []);
 
     const contributeHandler = async () => {
         setShowContributeModal(false);
@@ -193,6 +187,18 @@ const Campaign: React.FC = () => {
             onGetContractByAddress({ address: String(address), web3 })
         );
     };
+
+    useEffect(() => {
+        if (!isWalletConnected) {
+            navigate('/');
+            return;
+        }
+        if (web3) {
+            dispatch(
+                onGetContractByAddress({ address: String(address), web3 })
+            );
+        }
+    }, []);
 
     return (
         <React.Fragment>

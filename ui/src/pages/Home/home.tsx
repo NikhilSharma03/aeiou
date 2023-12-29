@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { enqueueSnackbar } from 'notistack';
+
 import {
     Container,
-    BannerContainer,
     BannerImage,
     Banner,
     Main,
     Content,
     ContentHead,
     ContentPara,
+    ExploreBtn,
     WorksContainer,
     WorksHead,
     WorksHeadContainer,
@@ -22,8 +25,33 @@ import { AiFillBulb } from 'react-icons/ai';
 import { MdCampaign } from 'react-icons/md';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { BiShareAlt } from 'react-icons/bi';
+import { useAppSelector } from '../../hooks/hooks';
 
 const Layout: React.FC = () => {
+    const navigate = useNavigate();
+
+    const isWalletConnected = useAppSelector(
+        (state) => state.users.isWalletConnected
+    );
+
+    const handleExplore = () => {
+        if (isWalletConnected) {
+            navigate('/campaigns');
+        } else {
+            enqueueSnackbar('Please connect wallet', {
+                variant: 'error',
+                anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                },
+                autoHideDuration: 4000,
+                style: {
+                    fontSize: '2rem',
+                },
+            });
+        }
+    };
+
     return (
         <Container>
             <Main>
@@ -31,15 +59,12 @@ const Layout: React.FC = () => {
                     <ContentHead>
                         Crowdfunding <span>Platform</span>
                     </ContentHead>
-                    <ContentPara>
-                        Powered by Ethereum <span> Blockchain</span>
-                    </ContentPara>
+                    <ContentPara>Powered by Ethereum Blockchain</ContentPara>
+                    <ExploreBtn onClick={handleExplore}>Explore</ExploreBtn>
                 </Content>
-                <BannerContainer>
-                    <Banner>
-                        <BannerImage src={bannerImage} />
-                    </Banner>
-                </BannerContainer>
+                <Banner>
+                    <BannerImage src={bannerImage} />
+                </Banner>
             </Main>
             <WorksContainer>
                 <WorksHeadContainer>

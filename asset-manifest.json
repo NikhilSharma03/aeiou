@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/AEIOU/static/css/main.260d2690.css",
-    "main.js": "/AEIOU/static/js/main.56371407.js",
+    "main.js": "/AEIOU/static/js/main.c0b0c5b1.js",
     "static/js/787.21f21c40.chunk.js": "/AEIOU/static/js/787.21f21c40.chunk.js",
     "static/media/banner.png": "/AEIOU/static/media/banner.3458fa95506cdf9fb2ce.png",
     "index.html": "/AEIOU/index.html",
     "main.260d2690.css.map": "/AEIOU/static/css/main.260d2690.css.map",
-    "main.56371407.js.map": "/AEIOU/static/js/main.56371407.js.map",
+    "main.c0b0c5b1.js.map": "/AEIOU/static/js/main.c0b0c5b1.js.map",
     "787.21f21c40.chunk.js.map": "/AEIOU/static/js/787.21f21c40.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.260d2690.css",
-    "static/js/main.56371407.js"
+    "static/js/main.c0b0c5b1.js"
   ]
 }

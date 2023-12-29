@@ -1,12 +1,16 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout/layout';
 import { ThemeProvider } from 'styled-components';
-import themeScheme from './theme/schema';
+import { SnackbarProvider } from 'notistack';
+
 import GlobalStyle from './App.style';
+
+import Layout from './components/Layout/layout';
+
+import themeScheme from './theme/schema';
+
 import { useTheme } from './hooks/hooks';
 
-// Pages
 import {
     Campaign,
     Campaigns,
@@ -25,6 +29,7 @@ const App: React.FC = () => {
     return (
         <ThemeProvider theme={getTheme(currentTheme)}>
             <GlobalStyle />
+            <SnackbarProvider />
             <Layout>
                 <Routes>
                     <Route path="/" element={<Home />} />

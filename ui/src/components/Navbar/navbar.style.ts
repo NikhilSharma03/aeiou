@@ -1,32 +1,35 @@
 import styled from 'styled-components';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-export const Container = styled.header`
+export const Container = styled.header<{ changeNavbarColor: boolean }>`
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    background-color: ${({ theme }) => theme.palette.header};
-    padding: 1.5rem 2rem;
-    border-bottom: 2px solid ${({ theme }) => theme.palette.headerBottomBorder};
+    padding: 2rem 3rem;
+    transition: all 0.3s;
 
-    @media (max-width: 900px) {
-        padding: 2rem 4rem;
-        justify-content: space-between;
-    }
+    background-color: ${({ theme, changeNavbarColor }) =>
+        changeNavbarColor ? theme.palette.header : 'transparent'};
 `;
 
 export const Title = styled.h1`
     letter-spacing: 5px;
     color: ${({ theme }) => theme.palette.headerTitle};
-    font-size: 2.5rem;
+    font-size: 3.75rem;
+    cursor: pointer;
 
     & span {
         color: ${({ theme }) => theme.palette.headerTitleSpan};
+    }
+
+    a {
+        text-decoration: none;
+        color: ${({ theme }) => theme.palette.headerTitle};
     }
 `;
 
@@ -38,8 +41,11 @@ export const NavMain = styled.nav`
 export const Nav = styled.ul`
     display: flex;
     align-items: center;
-    margin-right: 2rem;
     list-style: none;
+    border: 2px solid ${({ theme }) => theme.palette.headerBottomBorder};
+    background-color: ${({ theme }) => theme.palette.body};
+    padding: 0.4rem 2rem;
+    border-radius: 3rem;
 
     @media (max-width: 900px) {
         display: none;
@@ -47,7 +53,11 @@ export const Nav = styled.ul`
 `;
 
 export const NavItems = styled.li`
-    margin-right: 3rem;
+    display: flex;
+
+    &:not(:last-child) {
+        margin-right: 3rem;
+    }
 
     & svg {
         margin-right: 0.75rem;
@@ -94,11 +104,12 @@ export const UserAuthBtn = styled.div`
     align-items: center;
     color: ${({ theme }) => theme.palette.headerTitle};
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     font-weight: bold;
-    background: ${({ theme }) => theme.palette.headerTitleSpanHover};
-    padding: 1.2rem 3rem;
-    border-radius: 10px;
+    background: transparent;
+    border: 1px solid ${({ theme }) => theme.palette.headerTitleSpanHover};
+    padding: 1.6rem 3rem;
+    border-radius: 2.5rem;
     letter-spacing: 2px;
     transition: all 0.3s;
     cursor: pointer;
@@ -107,13 +118,11 @@ export const UserAuthBtn = styled.div`
         svg {
             margin-right: 1rem;
         }
-        span {
-            max-width: 15rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
         display: flex;
+    }
+
+    &:hover {
+        background: ${({ theme }) => theme.palette.headerTitleSpanHover};
     }
 
     @media (max-width: 900px) {

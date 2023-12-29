@@ -9,26 +9,18 @@ export const Container = styled.div`
 
 export const Main = styled.div`
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 0 3rem;
-    min-height: 100vh;
+    margin-top: 15vh;
+    height: 85vh;
 
-    @media (max-width: 900px) {
-        flex-direction: column-reverse;
+    @media (max-width: 600px) {
+        justify-content: center;
     }
 `;
 
 export const Content = styled.div`
-    flex: 1;
-    padding-left: 3rem;
-
-    @media (max-width: 900px) {
-        padding-left: 0rem;
-        text-align: center;
-
-        transform: translateY(-5rem);
-    }
+    text-align: center;
 `;
 
 export const ContentHead = styled.h1`
@@ -58,24 +50,8 @@ export const ContentHead = styled.h1`
 `;
 
 export const ContentPara = styled.p`
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: ${({ theme }) => theme.palette.homeTitle};
-    font-style: italic;
-
-    & span {
-        display: inline-block;
-        color: ${({ theme }) => theme.palette.homeSpan};
-        transition: all 0.3s;
-        cursor: pointer;
-        &:hover {
-            transform: skewY(-2deg) scale(1.05);
-            color: ${({ theme }) => theme.palette.homeSpanHover};
-        }
-    }
-
-    @media (max-width: 900px) {
-        font-style: initial;
-    }
 
     @media (max-width: 650px) {
         font-size: 2.75rem;
@@ -86,36 +62,47 @@ export const ContentPara = styled.p`
     }
 `;
 
-export const BannerContainer = styled.div`
-    flex: 1;
+export const ExploreBtn = styled.button`
+    margin: 0 auto;
+    margin-top: 5rem;
+    color: ${({ theme }) => theme.palette.headerTitle};
+    font-size: 1.7rem;
+    font-weight: bold;
+    background-color: ${({ theme }) => theme.palette.headerTitleSpan};
+    border: none;
+    padding: 1.8rem 4rem;
+    border-radius: 2.5rem;
+    letter-spacing: 2px;
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: ${({ theme }) => theme.palette.homeSpanHover};
+    }
 `;
 
 export const Banner = styled.div`
-    display: flex;
-    justify-content: center;
+    width: 120rem;
+    transform: translateY(-10rem);
+    z-index: -1;
 
-    @media (max-width: 900px) {
-        width: 70%;
-        margin: 0 auto;
-        margin-top: 15rem;
-    }
-
-    @media (max-width: 800px) {
-        width: 90%;
-    }
-
-    @media (max-width: 550px) {
+    @media (max-width: 1200px) {
         width: 100%;
-        transform: translateY(10rem);
+    }
+    @media (max-width: 850px) {
+        transform: translateY(0rem);
     }
 `;
 
 export const BannerImage = styled.img`
     width: 100%;
+    height: 100%;
+    object-fit: contain;
 `;
 
 export const WorksContainer = styled.div`
     padding: 0 5rem;
+    margin-top: 14rem;
     margin-bottom: 20rem;
 `;
 

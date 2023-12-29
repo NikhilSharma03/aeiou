@@ -15,18 +15,15 @@ import {
 } from './campaigns.style';
 import { Link, useNavigate } from 'react-router-dom';
 import { onGetAllContracts } from './../../redux/actions/contract';
-import { onClearUserError } from './../../redux/reducers/user';
 import { onClearContractError } from './../../redux/reducers/contract';
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
-import Metamask from '../../components/Modals/Metamask/metamask';
 import ErrorModal from '../../components/Modals/Error/error';
 import LoadingModal from '../../components/Modals/Loading/loading';
 import Web3 from 'web3';
 
 const Campaigns: React.FC = () => {
     const navigate = useNavigate();
-    const [showMetaMaskModal, setShowMetaMaskModal] = useState(false);
-    const dispatch = useAppDispatch();
+
     const contracts = useAppSelector((state) => state.contracts.data);
     const contractLoading: boolean = useAppSelector(
         (state) => state.contracts.loading
@@ -35,12 +32,11 @@ const Campaigns: React.FC = () => {
         (state) => state.contracts.error
     );
     const web3 = useAppSelector((state) => state.users.web3);
-    const userError: string = useAppSelector((state) => state.users.error);
     const isWalletConnected = useAppSelector(
         (state) => state.users.isWalletConnected
     );
 
-    const clearUserError = () => dispatch(onClearUserError());
+    const dispatch = useAppDispatch();
     const clearContractError = () => dispatch(onClearContractError());
 
     useEffect(() => {
@@ -53,21 +49,8 @@ const Campaigns: React.FC = () => {
         }
     }, []);
 
-    if (userError !== '' && !showMetaMaskModal) {
-        setShowMetaMaskModal(true);
-    }
-
-    const onClearMetaMaskError = () => {
-        setShowMetaMaskModal(false);
-        clearUserError();
-    };
-
     return (
         <React.Fragment>
-            <Metamask
-                showModal={showMetaMaskModal}
-                closeModal={onClearMetaMaskError}
-            />
             <ErrorModal
                 content={contractError}
                 showModal={!!contractError}

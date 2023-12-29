@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Container,
     Nav,
@@ -9,19 +10,24 @@ import {
     Title,
     UserAuthBtn,
 } from './navbar.style';
+
 import { IoMdCreate } from 'react-icons/io';
 import { MdCampaign } from 'react-icons/md';
-import { FaHome, FaUserAlt } from 'react-icons/fa';
-import { onConnectWallet } from './../../redux/actions/user';
+import { FaHome, FaWallet } from 'react-icons/fa';
+
 import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
+
+import { formatAddress } from '../../utils/formatAddress';
+
+import { onConnectWallet } from './../../redux/actions/user';
 
 interface Props {
     toggleSideDrawer: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
-    const dispatch = useAppDispatch();
-    const connectWallet = () => dispatch(onConnectWallet());
+    const [changeNavbarColor, setChangeNavbarColor] = useState(false);
+
     const isWalletConnected: boolean = useAppSelector(
         (state) => state.users.isWalletConnected
     );
@@ -29,50 +35,67 @@ const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
         (state) => state.users.userWalletAccount
     );
 
+    const dispatch = useAppDispatch();
+    const connectWallet = () => dispatch(onConnectWallet());
+
+    const navbarScrollHandler = () => {
+        if (window.scrollY >= 100) {
+            setChangeNavbarColor(true);
+        } else {
+            setChangeNavbarColor(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', navbarScrollHandler);
+
+        return () => window.removeEventListener('scroll', navbarScrollHandler);
+    }, []);
+
     return (
-        <Container>
+        <Container changeNavbarColor={changeNavbarColor}>
             <Title>
-                AEI<span>OU</span>
+                <Link to="/">
+                    AEI<span>OU</span>
+                </Link>
             </Title>
-            <NavMain>
-                <SideBarMenu onClick={toggleSideDrawer}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </SideBarMenu>
-                <Nav>
-                    <NavItems>
-                        <NavItem to="/">
-                            <FaHome size={25} color="#ccc" /> Home
-                        </NavItem>
-                    </NavItems>
-                    {isWalletConnected && (
+            {isWalletConnected && (
+                <NavMain>
+                    <Nav>
+                        <NavItems>
+                            <NavItem to="/">
+                                <FaHome size={25} color="#ccc" /> Home
+                            </NavItem>
+                        </NavItems>
                         <NavItems>
                             <NavItem to="/campaigns">
                                 <MdCampaign size={25} color="#ccc" /> Campaigns
                             </NavItem>
                         </NavItems>
-                    )}
-                    {isWalletConnected && (
                         <NavItems>
                             <NavItem to="/campaigns/new">
                                 <IoMdCreate size={25} color="#ccc" /> New
                                 Campaign
                             </NavItem>
                         </NavItems>
-                    )}
-                </Nav>
-                <UserAuthBtn onClick={connectWallet}>
-                    {isWalletConnected ? (
-                        <div>
-                            <FaUserAlt size={15} color="#ccc" />{' '}
-                            <span>{userWalletAccount}</span>
-                        </div>
-                    ) : (
-                        'Connect Wallet'
-                    )}
-                </UserAuthBtn>
-            </NavMain>
+                    </Nav>
+                </NavMain>
+            )}
+            <SideBarMenu onClick={toggleSideDrawer}>
+                <div></div>
+                <div></div>
+                <div></div>
+            </SideBarMenu>
+            <UserAuthBtn onClick={connectWallet}>
+                {isWalletConnected ? (
+                    <div>
+                        <FaWallet size={15} color="#ccc" />{' '}
+                        <span>{formatAddress(userWalletAccount)}</span>
+                    </div>
+                ) : (
+                    'Connect Wallet'
+                )}
+            </UserAuthBtn>
         </Container>
     );
 };

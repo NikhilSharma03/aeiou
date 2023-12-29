@@ -13,15 +13,17 @@ export const onConnectWallet = createAsyncThunk<
     { rejectValue: string }
 >('user/connectWallet', async (_, { rejectWithValue }) => {
     try {
-        localStorage.clear();
         const provider = await web3Modal.connect();
         const web3 = new Web3(provider);
+
         provider.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: toHex(5) }],
         });
+
         const accounts = await web3.eth.getAccounts();
-        return { web3, account: accounts[0] };
+
+        return { web3, account: accounts[0].toLowerCase() };
     } catch (err) {
         return rejectWithValue('Failed to connect to MetaMask');
     }

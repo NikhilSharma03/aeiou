@@ -1,4 +1,4 @@
-name: Build and Deploy CI
+name: Deploy UI Workflow
 
 on:
   push:
@@ -6,22 +6,16 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy Job
+  deploy:
+    name: Deploy Job
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: contract
+        working-directory: ui
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "npm"
       
       - name: Install and Build
         run: |

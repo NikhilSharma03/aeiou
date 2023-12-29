@@ -1,4 +1,4 @@
-name: Compile and Test Contract
+name: Compile and Test Contract Workflow
 
 on:
   pull_request:

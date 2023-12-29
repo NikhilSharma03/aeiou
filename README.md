@@ -51,74 +51,60 @@ src="https://img.shields.io/badge/css3%20-%231572B6.svg?&style=for-the-badge&log
 
 ## Setup and Installation
 
-First install ethereum dependencies
+First install contract dependencies
 
 ```
-make setup-eth-libs
+make setup-contract-libs
 ```
 
-After making changes to Smart Contract (Solidity), Compile solidity smart contract
+After making changes to Smart Contract, Compile solidity smart contract
 
 ```
-make compile-eth-contract
+make compile-contract
 ```
 
 After compiling, test solidity smart contract
 
 ```
-make test-eth-contract
+make test-contract
 ```
 
 After tests runs successfully, you are set to deploy the application.
 
-For that first add `Environment Variables` by creating a new `.env` file in `ethereum` folder and add the contents following `.env.example`
+For that first add `Environment Variables` by creating a new `.env` file in `contract` folder and add the contents following `.env.example`
 
 Once you have added correct credentials, deploy the smart contract
 
 ```
-make deploy-eth-contract
+make deploy-contract
 ```
 
 Once you have successfully deployed the smart contract, you will find the address of your deployed smart contract in the terminal, copy that as it will be required in frontend to interact with your smart contract
 
+The live application is using contract deployed at `0x0dcba90ec9a960d72fdee71aee694e975fffeeed`
+
 <br>
 
-Now, Lets start by installing frontend ui dependencies
+Now, Lets start by installing ui dependencies
 
 ```
 make setup-ui-libs
 ```
 
-Now add `Environment Variables` by creating a new `.env` file in `frontend` folder and add the contents following `.env.example`
-
-After adding `Environment Variables`, copy and paste the `.json` files from `ethereum/build` to `frontend/src/web3/campaign`
+Now add `Environment Variables` by creating a new `.env` file in `ui` folder and add the contents following `.env.example`
 
 Now, Run the ui
 
 ```
-make run-ui
+make run-ui-dev
 ```
 
 now the application is running at `localhost:3000`
 
-To build the frontend ui
+To build the ui
 
 ```
 make build-ui
-```
-
-<br>
-
-If we want to use Docker, first go to `frontend` folder and build docker image,
-
-```
-docker build -t aeiou-ui .
-```
-
-Now, we can use the image
-
-```
-docker run -p 3000:3000 aeiou-ui
 ```
 
 <br>

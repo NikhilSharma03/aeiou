@@ -189,16 +189,12 @@ const Campaign: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!isWalletConnected) {
-            navigate('/');
-            return;
-        }
         if (web3) {
             dispatch(
                 onGetContractByAddress({ address: String(address), web3 })
             );
         }
-    }, []);
+    }, [isWalletConnected]);
 
     return (
         <React.Fragment>

@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import web3Modal from '../../utils/web3modal';
 import Web3 from 'web3';
 
 export const toHex = (num) => {
@@ -13,15 +12,24 @@ export const onConnectWallet = createAsyncThunk<
     { rejectValue: string }
 >('user/connectWallet', async (_, { rejectWithValue }) => {
     try {
-        const provider = await web3Modal.connect();
-        const web3 = new Web3(provider);
+        if (typeof window.ethereum === 'undefined') {
+            return rejectWithValue('Please Install Metamask');
+        }
 
-        provider.request({
+        const provider = window.ethereum;
+
+        const accounts = await provider.request({
+            method: 'eth_requestAccounts',
+        });
+
+        await provider.request({
             method: 'wallet_switchEthereumChain',
             params: [{ chainId: toHex(5) }],
         });
 
-        const accounts = await web3.eth.getAccounts();
+        const web3 = new Web3(provider);
+
+        localStorage.setItem('user-address', accounts[0].toLowerCase());
 
         return { web3, account: accounts[0].toLowerCase() };
     } catch (err) {

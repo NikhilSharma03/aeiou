@@ -14,7 +14,6 @@
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.1",
         "@tippyjs/react": "^4.2.6",
-        "@walletconnect/web3-provider": "^1.8.0",
         "axios": "^0.26.1",
         "notistack": "^3.0.1",
         "react": "^18.0.0",
@@ -26,8 +25,7 @@
         "redux-thunk": "^2.4.1",
         "styled-components": "^5.3.5",
         "web-vitals": "^2.1.4",
-        "web3": "^1.7.3",
-        "web3modal": "^1.9.9"
+        "web3": "^1.7.3"
     },
     "devDependencies": {
         "@types/node": "^16.11.26",
@@ -37,6 +35,7 @@
         "assert": "^2.0.0",
         "buffer": "^6.0.3",
         "crypto-browserify": "^3.12.0",
+        "gh-pages": "^5.0.0",
         "https-browserify": "^1.0.0",
         "os-browserify": "^0.3.0",
         "prettier": "2.6.2",
@@ -45,8 +44,7 @@
         "stream-browserify": "^3.0.0",
         "stream-http": "^3.2.0",
         "typescript": "^4.6.3",
-        "url": "^0.11.0",
-        "gh-pages": "^5.0.0"
+        "url": "^0.11.0"
     },
     "browserslist": {
         "production": [

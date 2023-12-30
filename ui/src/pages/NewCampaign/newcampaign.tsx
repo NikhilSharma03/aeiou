@@ -121,12 +121,6 @@ const NewCampaign: React.FC = () => {
         );
     };
 
-    useEffect(() => {
-        if (!isWalletConnected) {
-            navigate('/');
-        }
-    }, []);
-
     return (
         <Container>
             <ErrorModal

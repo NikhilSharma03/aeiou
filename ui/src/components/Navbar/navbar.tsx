@@ -11,6 +11,8 @@ import {
     UserAuthBtn,
 } from './navbar.style';
 
+import Metamask from '../Modals/Metamask/metamask';
+
 import { IoMdCreate } from 'react-icons/io';
 import { MdCampaign } from 'react-icons/md';
 import { FaHome, FaWallet } from 'react-icons/fa';
@@ -20,6 +22,8 @@ import { useAppDispatch, useAppSelector } from './../../hooks/hooks';
 import { formatAddress } from '../../utils/formatAddress';
 
 import { onConnectWallet } from './../../redux/actions/user';
+import { onClearUserError } from './../../redux/reducers/user';
+import ErrorModal from '../Modals/Error/error';
 
 interface Props {
     toggleSideDrawer: React.MouseEventHandler<HTMLDivElement> | undefined;
@@ -34,9 +38,11 @@ const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
     const userWalletAccount: string = useAppSelector(
         (state) => state.users.userWalletAccount
     );
+    const error: string = useAppSelector((state) => state.users.error);
 
     const dispatch = useAppDispatch();
     const connectWallet = () => dispatch(onConnectWallet());
+    const clearUserError = () => dispatch(onClearUserError());
 
     const navbarScrollHandler = () => {
         if (window.scrollY >= 100) {
@@ -53,50 +59,63 @@ const Navbar: React.FC<Props> = ({ toggleSideDrawer }) => {
     }, []);
 
     return (
-        <Container changeNavbarColor={changeNavbarColor}>
-            <Title>
-                <Link to="/">
-                    AEI<span>OU</span>
-                </Link>
-            </Title>
-            {isWalletConnected && (
-                <NavMain>
-                    <Nav>
-                        <NavItems>
-                            <NavItem to="/">
-                                <FaHome size={25} color="#ccc" /> Home
-                            </NavItem>
-                        </NavItems>
-                        <NavItems>
-                            <NavItem to="/campaigns">
-                                <MdCampaign size={25} color="#ccc" /> Campaigns
-                            </NavItem>
-                        </NavItems>
-                        <NavItems>
-                            <NavItem to="/campaigns/new">
-                                <IoMdCreate size={25} color="#ccc" /> New
-                                Campaign
-                            </NavItem>
-                        </NavItems>
-                    </Nav>
-                </NavMain>
+        <>
+            {error === 'Please Install Metamask' && (
+                <Metamask showModal={!!error} closeModal={clearUserError} />
             )}
-            <SideBarMenu onClick={toggleSideDrawer}>
-                <div></div>
-                <div></div>
-                <div></div>
-            </SideBarMenu>
-            <UserAuthBtn onClick={connectWallet}>
-                {isWalletConnected ? (
-                    <div>
-                        <FaWallet size={15} color="#ccc" />{' '}
-                        <span>{formatAddress(userWalletAccount)}</span>
-                    </div>
-                ) : (
-                    'Connect Wallet'
+            {error !== 'Please Install Metamask' && (
+                <ErrorModal
+                    content={error}
+                    showModal={!!error}
+                    closeModal={clearUserError}
+                />
+            )}
+            <Container changeNavbarColor={changeNavbarColor}>
+                <Title>
+                    <Link to="/">
+                        AEI<span>OU</span>
+                    </Link>
+                </Title>
+                {isWalletConnected && (
+                    <NavMain>
+                        <Nav>
+                            <NavItems>
+                                <NavItem to="/">
+                                    <FaHome size={25} color="#ccc" /> Home
+                                </NavItem>
+                            </NavItems>
+                            <NavItems>
+                                <NavItem to="/campaigns">
+                                    <MdCampaign size={25} color="#ccc" />{' '}
+                                    Campaigns
+                                </NavItem>
+                            </NavItems>
+                            <NavItems>
+                                <NavItem to="/campaigns/new">
+                                    <IoMdCreate size={25} color="#ccc" /> New
+                                    Campaign
+                                </NavItem>
+                            </NavItems>
+                        </Nav>
+                    </NavMain>
                 )}
-            </UserAuthBtn>
-        </Container>
+                <SideBarMenu onClick={toggleSideDrawer}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </SideBarMenu>
+                <UserAuthBtn onClick={connectWallet}>
+                    {isWalletConnected ? (
+                        <div>
+                            <FaWallet size={15} color="#ccc" />{' '}
+                            <span>{formatAddress(userWalletAccount)}</span>
+                        </div>
+                    ) : (
+                        'Connect Wallet'
+                    )}
+                </UserAuthBtn>
+            </Container>
+        </>
     );
 };
 

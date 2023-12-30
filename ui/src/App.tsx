@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { SnackbarProvider } from 'notistack';
@@ -9,7 +9,9 @@ import Layout from './components/Layout/layout';
 
 import themeScheme from './theme/schema';
 
-import { useTheme } from './hooks/hooks';
+import { useAppDispatch, useTheme } from './hooks/hooks';
+
+import { onConnectWallet } from './redux/actions/user';
 
 import {
     Campaign,
@@ -25,6 +27,16 @@ const App: React.FC = () => {
     const getTheme = (selected: string) => {
         return selected === 'light' ? themeScheme.light : themeScheme.dark;
     };
+
+    const dispatch = useAppDispatch();
+    const connectWallet = () => dispatch(onConnectWallet());
+
+    useEffect(() => {
+        const userConnect = localStorage.getItem('user-address');
+        if (userConnect) {
+            connectWallet();
+        }
+    }, []);
 
     return (
         <ThemeProvider theme={getTheme(currentTheme)}>

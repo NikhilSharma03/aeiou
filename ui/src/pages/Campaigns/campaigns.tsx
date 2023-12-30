@@ -40,14 +40,10 @@ const Campaigns: React.FC = () => {
     const clearContractError = () => dispatch(onClearContractError());
 
     useEffect(() => {
-        if (!isWalletConnected) {
-            navigate('/');
-            return;
-        }
         if (web3) {
             dispatch(onGetAllContracts(web3));
         }
-    }, []);
+    }, [isWalletConnected]);
 
     return (
         <React.Fragment>
